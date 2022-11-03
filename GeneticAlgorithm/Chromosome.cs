@@ -31,7 +31,7 @@ namespace GeneticAlgorithm
                 Random random = new Random();
                 for (int i = 0; i < Genes.Length; i++)
                 {
-                    Genes[i] = random.Next(0, 7);
+                    Genes[i] = random.Next(0, (int)Length);
                 }
             }
             else
@@ -39,7 +39,7 @@ namespace GeneticAlgorithm
                 Random random = new Random((int)seed);
                 for (int i = 0; i < Genes.Length; i++)
                 {
-                    Genes[i] = random.Next(0, 7);
+                    Genes[i] = random.Next(0, (int)Length);
                 }
             }
         }
@@ -57,7 +57,7 @@ namespace GeneticAlgorithm
             int i = 0;
             foreach (int gene in chromosome.Genes)
             {
-                Genes[i] = chromosome.Genes[i];
+                Genes[i] = gene;
                 i++;
             }
         }
@@ -78,11 +78,16 @@ namespace GeneticAlgorithm
             }
         }
 
+        /// <summary>
+        /// Uses a crossover function to create two offspring, then iterates through the
+        /// two child Chromosomes genes, changing them to random values according to the mutation rate.
+        /// </summary>
+        /// <param name="spouse">The Chromosome to reproduce with</param>
+        /// <param name="mutationProb">The rate of mutation needs to be a decimal between 0.01 - 0.99</param>
+        /// <returns></returns>
         public IChromosome[] Reproduce(IChromosome spouse, double mutationProb)
         {
                 Random random = new Random();
-                //No matter what we want it to have children which are slightly different
-                //Maybe review this
                 int lowerBound = random.Next(0, Genes.Length-1);   
                 int upperBound = random.Next(lowerBound+1, Genes.Length);    
 
@@ -105,6 +110,17 @@ namespace GeneticAlgorithm
                     child2Genes[i] = spouse.Genes[i];
                 }
 
+                double chanceOfMutation = 1 / mutationProb;
+                int uppwerBound = (int)Math.Round(chanceOfMutation);
+                for (int i = 0; i < child1Genes.Length; i++)
+                {
+                    int randNumber = random.Next(1, upperBound);
+                    if (randNumber == 1)
+                    {
+                        child1Genes[i] = random.Next(1, (int)Length);
+                        child2Genes[i] = random.Next(1, (int)Length);
+                    }
+                }
                 
                 Chromosome[] chromosomeChildren = {new Chromosome(child1Genes, Length), new Chromosome(child2Genes, Length)};
                 
