@@ -35,5 +35,10 @@ namespace GeneticAlgorithm
         {
             throw new System.NotImplementedException();
         }
+
+        private IGeneration GenerateNextGeneration()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
