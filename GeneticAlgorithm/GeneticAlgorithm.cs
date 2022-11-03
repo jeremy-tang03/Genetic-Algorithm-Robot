@@ -33,7 +33,16 @@ namespace GeneticAlgorithm
 
         public IGeneration GenerateGeneration()
         {
-            throw new System.NotImplementedException();
+            if(this.GenerationCount == 0){
+                Chromosome[] chromosomes = new Chromosome[200];
+                for (int i = 0; i < chromosome.Length; i++)
+                {
+                    chromosomes[i] = new Chromosome(200, 7L, null);
+                }
+                return new Generation(chromosomes);
+            } else {
+                return GenerateNextGeneration();
+            }
         }
 
         private IGeneration GenerateNextGeneration()
