@@ -114,11 +114,11 @@ namespace GeneticAlgorithm
                 int uppwerBound = (int)Math.Round(chanceOfMutation);
                 for (int i = 0; i < child1Genes.Length; i++)
                 {
-                    int randNumber = random.Next(1, upperBound);
-                    if (randNumber == 1)
+                    int randNumber = random.Next(0, upperBound);
+                    if (randNumber == 0)
                     {
-                        child1Genes[i] = random.Next(1, (int)Length);
-                        child2Genes[i] = random.Next(1, (int)Length);
+                        child1Genes[i] = random.Next(0, (int)Length);
+                        child2Genes[i] = random.Next(0, (int)Length);
                     }
                 }
                 
