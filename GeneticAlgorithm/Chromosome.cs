@@ -16,8 +16,18 @@ namespace GeneticAlgorithm
             }
         }
 
-        public double Fitness { get; set; }
-
+        public double Fitness { 
+            get 
+            {
+                return Fitness;
+            }
+            set 
+            {
+                Fitness = value;
+                FitnessIsInitialized = true;
+            }
+        }
+        public bool FitnessIsInitialized { get; private set; } = false;
         public int[] Genes { get; }
 
         public long Length { get; }
@@ -64,6 +74,10 @@ namespace GeneticAlgorithm
 
         public int CompareTo([AllowNull] IChromosome other)
         {
+            if ((other.FitnessIsInitialized == false) || (FitnessIsInitialized == false)){
+                return 0;
+            }
+            
             if (Fitness < other.Fitness)
             {
                 return -1;

@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\2038364\\Desktop\\Robby\\robby-tang-canciani-cuscuna\\RobbyIterationGenerator\\RobbyIterationGenerator.csproj": {}
+    "c:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyIterationGenerator\\RobbyIterationGenerator.csproj": {}
   },
   "projects": {
-    "C:\\Users\\2038364\\Desktop\\Robby\\robby-tang-canciani-cuscuna\\RobbyIterationGenerator\\RobbyIterationGenerator.csproj": {
+    "c:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyIterationGenerator\\RobbyIterationGenerator.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\2038364\\Desktop\\Robby\\robby-tang-canciani-cuscuna\\RobbyIterationGenerator\\RobbyIterationGenerator.csproj",
+        "projectUniqueName": "c:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyIterationGenerator\\RobbyIterationGenerator.csproj",
         "projectName": "RobbyIterationGenerator",
-        "projectPath": "C:\\Users\\2038364\\Desktop\\Robby\\robby-tang-canciani-cuscuna\\RobbyIterationGenerator\\RobbyIterationGenerator.csproj",
-        "packagesPath": "C:\\Users\\2038364\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\2038364\\Desktop\\Robby\\robby-tang-canciani-cuscuna\\RobbyIterationGenerator\\obj\\",
+        "projectPath": "c:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyIterationGenerator\\RobbyIterationGenerator.csproj",
+        "packagesPath": "C:\\Users\\rapha\\.nuget\\packages\\",
+        "outputPath": "c:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyIterationGenerator\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\2038364\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\rapha\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -49,7 +45,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -58,7 +55,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     }
