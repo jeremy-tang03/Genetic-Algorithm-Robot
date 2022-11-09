@@ -16,13 +16,22 @@ namespace GeneticAlgorithm
 
         public long GenerationCount { get; }
 
+        public int? Seed { get; }
+
         public IGeneration CurrentGeneration { get; }
 
         public FitnessEventHandler FitnessCalculation  { get; }
 
         public GeneticAlgorithm(int populationSize, int numberOfGenes, int lengthOfGene, double mutationRate, double eliteRate, int numberOfTrials, FitnessEventHandler fitnessCalculation, int? seed = null)
         {
-            throw new System.NotImplementedException();
+            this.PopulationSize = populationSize;
+            this.NumberOfGenes = numberOfGenes;
+            this.LengthOfGene = lengthOfGene;
+            this.MutationRate = mutationRate;
+            this.EliteRate = EliteRate;
+            this.NumberOfTrials = numberOfTrials;
+            this.FitnessCalculation = fitnessCalculation;
+            this.Seed = seed;
             //return GenerateGeneration(populationSize, numberOfGenes, lengthOfGene, mutationRate, eliteRate, numberOfTrials, fitnessCalculation, seed);
         }
 
@@ -35,11 +44,11 @@ namespace GeneticAlgorithm
         {
             if(this.GenerationCount == 0){
                 Chromosome[] chromosomes = new Chromosome[200];
-                for (int i = 0; i < chromosome.Length; i++)
+                for (int i = 0; i < chromosomes.Length; i++)
                 {
-                    chromosomes[i] = new Chromosome(200, 7L, null);
+                    chromosomes[i] = new Chromosome(200, 7L, this.Seed);
                 }
-                return new Generation(chromosomes);
+                return new GenerationDetails(chromosomes, this, this.Seed);
             } else {
                 return GenerateNextGeneration();
             }
@@ -47,7 +56,12 @@ namespace GeneticAlgorithm
 
         private IGeneration GenerateNextGeneration()
         {
-            throw new System.NotImplementedException();
+            Chromosome[] chromosomes  = new Chromosome[200];
+            for (int i = 0; i < this.CurrentGeneration.NumberOfChromosomes; i++)
+            {
+                this.CurrentGeneration[i].Reproduce(this.CurrentGeneration[i+1]);
+            }
+            this.CurrentGeneration = 
         }
     }
 }
