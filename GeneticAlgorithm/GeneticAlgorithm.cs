@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System;
 
 namespace GeneticAlgorithm
 {
@@ -22,18 +23,33 @@ namespace GeneticAlgorithm
 
         public IGeneration CurrentGeneration { get; private set; }
 
-        public FitnessEventHandler FitnessCalculation  { get; }
+        public FitnessEventHandler FitnessCalculation { get; }
 
         public GeneticAlgorithm(int populationSize, int numberOfGenes, int lengthOfGene, double mutationRate, double eliteRate, int numberOfTrials, FitnessEventHandler fitnessCalculation, int? seed = null)
         {
-            this.PopulationSize = populationSize;
-            this.NumberOfGenes = numberOfGenes;
-            this.LengthOfGene = lengthOfGene;
-            this.MutationRate = mutationRate;
-            this.EliteRate = EliteRate;
-            this.NumberOfTrials = numberOfTrials;
-            this.FitnessCalculation = fitnessCalculation;
-            this.Seed = seed;
+            if (populationSize <= 0 || numberOfGenes <= 0 || lengthOfGene <= 0 || mutationRate < 0 || eliteRate < 0 || numberOfTrials < 0)
+            {
+                throw new ArgumentException();
+            }
+            else
+            {
+                this.PopulationSize = populationSize;
+                this.NumberOfGenes = numberOfGenes;
+                this.LengthOfGene = lengthOfGene;
+                this.MutationRate = mutationRate;
+                this.EliteRate = eliteRate;
+                this.NumberOfTrials = numberOfTrials;
+                this.FitnessCalculation = fitnessCalculation;
+            }
+            if (seed != null)
+            {
+                this.Seed = (int)seed;
+            }
+            else
+            {
+                this.Seed = seed;
+            }
+
             // return GenerateGeneration(populationSize, numberOfGenes, lengthOfGene, mutationRate, eliteRate, numberOfTrials, fitnessCalculation, seed);
         }
 
@@ -44,14 +60,17 @@ namespace GeneticAlgorithm
 
         public IGeneration GenerateGeneration()
         {
-            if(this.GenerationCount == 0){
+            if (this.GenerationCount == 0)
+            {
                 Chromosome[] chromosomes = new Chromosome[200];
                 for (int i = 0; i < chromosomes.Length; i++)
                 {
                     chromosomes[i] = new Chromosome(200, 7L, this.Seed);
                 }
                 return new GenerationDetails(chromosomes, this, this.Seed);
-            } else {
+            }
+            else
+            {
                 return GenerateNextGeneration();
             }
         }
@@ -61,14 +80,14 @@ namespace GeneticAlgorithm
             // TODO: check fitness
             List<Chromosome> newChromosomesList = new List<Chromosome>();
             const int top = 20; // if top parents count is 20
-            for (int i = 0; i < this.CurrentGeneration.NumberOfChromosomes/2; i++)
+            for (int i = 0; i < this.CurrentGeneration.NumberOfChromosomes / 2; i++)
             {
-                Chromosome spouse = (Chromosome) this.CurrentGeneration[i]; //this.CurrentGeneration[(i+1)%(top-1)]
-                Chromosome[] chromosomeChildren = this.CurrentGeneration[i%(top-1)].Reproduce(spouse, this.MutationRate);
+                Chromosome spouse = (Chromosome)this.CurrentGeneration[i]; //this.CurrentGeneration[(i+1)%(top-1)]
+                Chromosome[] chromosomeChildren = this.CurrentGeneration[i % (top - 1)].Reproduce(spouse, this.MutationRate);
                 newChromosomesList.Add(chromosomeChildren[0]);
                 newChromosomesList.Add(chromosomeChildren[1]);
             }
-            Chromosome[] newChromosomes  = newChromosomesList.ToArray();
+            Chromosome[] newChromosomes = newChromosomesList.ToArray();
             IGeneration nextGeneration = GenerationDetails(newChromosomes, this, this.Seed);
             this.CurrentGeneration = nextGeneration;
             return nextGeneration;
