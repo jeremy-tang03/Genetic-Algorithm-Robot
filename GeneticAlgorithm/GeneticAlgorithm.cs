@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace GeneticAlgorithm
 {
     public class GeneticAlgorithm : IGeneticAlgorithm
@@ -18,7 +20,7 @@ namespace GeneticAlgorithm
 
         public int? Seed { get; }
 
-        public IGeneration CurrentGeneration { get; }
+        public IGeneration CurrentGeneration { get; private set; }
 
         public FitnessEventHandler FitnessCalculation  { get; }
 
@@ -32,7 +34,7 @@ namespace GeneticAlgorithm
             this.NumberOfTrials = numberOfTrials;
             this.FitnessCalculation = fitnessCalculation;
             this.Seed = seed;
-            //return GenerateGeneration(populationSize, numberOfGenes, lengthOfGene, mutationRate, eliteRate, numberOfTrials, fitnessCalculation, seed);
+            // return GenerateGeneration(populationSize, numberOfGenes, lengthOfGene, mutationRate, eliteRate, numberOfTrials, fitnessCalculation, seed);
         }
 
         public IGeneration GenerateGeneration(int populationSize, int numberOfGenes, int lengthOfGene, double mutationRate, double eliteRate, int numberOfTrials, FitnessEventHandler fitnessCalculation, int? seed = null)
@@ -56,12 +58,20 @@ namespace GeneticAlgorithm
 
         private IGeneration GenerateNextGeneration()
         {
-            Chromosome[] chromosomes  = new Chromosome[200];
-            for (int i = 0; i < this.CurrentGeneration.NumberOfChromosomes; i++)
+            // TODO: check fitness
+            List<Chromosome> newChromosomesList = new List<Chromosome>();
+            const int top = 20; // if top parents count is 20
+            for (int i = 0; i < this.CurrentGeneration.NumberOfChromosomes/2; i++)
             {
-                this.CurrentGeneration[i].Reproduce(this.CurrentGeneration[i+1]);
+                Chromosome spouse = (Chromosome) this.CurrentGeneration[i]; //this.CurrentGeneration[(i+1)%(top-1)]
+                Chromosome[] chromosomeChildren = this.CurrentGeneration[i%(top-1)].Reproduce(spouse, this.MutationRate);
+                newChromosomesList.Add(chromosomeChildren[0]);
+                newChromosomesList.Add(chromosomeChildren[1]);
             }
-            this.CurrentGeneration = 
+            Chromosome[] newChromosomes  = newChromosomesList.ToArray();
+            IGeneration nextGeneration = GenerationDetails(newChromosomes, this, this.Seed);
+            this.CurrentGeneration = nextGeneration;
+            return nextGeneration;
         }
     }
 }
