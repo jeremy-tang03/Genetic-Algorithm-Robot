@@ -63,15 +63,21 @@ namespace GeneticAlgorithm{
         }
 
         //IGenerationDetails
-        // public IChromosome SelectParent(){
+        public IChromosome SelectParent(){
 
             //Sort first to first 20
             //Random random = new Random[20]; Randomly select based on the these.
+
+            double[] sortedArray = new double[200];
+
 
             // double bestFitness = chromosome[0].Fitness;
             //200 ->> 300
 
             // double oldFitness;
+
+            //Gets the best fitness
+
 
             // for(int i =0; i<chromosome.Length; i++){
             //     double bestFitness = chromosome[i].Fitness;
@@ -83,12 +89,45 @@ namespace GeneticAlgorithm{
             //         }
             //     }
 
+            //     bestFitness = i;
+                // sortedArray[i] = bestFitness;
             // }
-        // }
 
-        // public  void EvaluateFitnessOfPopulation(){
+            IChromosome[] sorted = new IChromosome[200];
 
-        // }
+            int bestFitness = 0;
+            for(int i =0; i<chromosome.Length; i++){
+
+                bestFitness = i;
+
+                for(int j = i; j<chromosome.Length;j++){
+
+                    if(chromosome[i].Fitness < chromosome[j].Fitness){
+
+                        bestFitness = j;
+                    }
+                }
+                sorted[i] = chromosome[bestFitness]; 
+                
+            }
+
+    
+            System.Random random = new System.Random();
+            int num = random.Next(21);
+
+    
+            return sorted[num];
+
+        }
+
+        public  void EvaluateFitnessOfPopulation(){
+            iGenAlgorithm.FitnessCalculation;
+
+            if(iGenAlgorithm.NumberOfTrials > 1){
+
+
+            }
+        }
         
     }
 
