@@ -40,7 +40,7 @@ namespace GeneticAlgorithm
                 this.EliteRate = eliteRate;
                 this.NumberOfTrials = numberOfTrials;
             }
-            if (seed != null) // not sure if this check is necessary
+            if (seed != null) // not sure if this is necessary
             {
                 this.Seed = (int)seed;
             }
@@ -49,7 +49,7 @@ namespace GeneticAlgorithm
                 this.Seed = seed;
             }
             this.GenerationCount = 0;
-            this.CurrentGeneration = GenerateGeneration(populationSize, numberOfGenes, lengthOfGene, mutationRate, eliteRate, numberOfTrials, fitnessCalculation, seed);
+            this.CurrentGeneration = GenerateGeneration();
             this.FitnessCalculation = fitnessCalculation;
         }
 
@@ -72,15 +72,13 @@ namespace GeneticAlgorithm
 
         private IGeneration GenerateNextGeneration()
         {
-            // TODO: check fitness?
             List<Chromosome> newChromosomesList = new List<Chromosome>();
-            const int top = 20; // if we get the top 20, this is temporary
-            for (int i = 0; i < this.CurrentGeneration.NumberOfChromosomes / 2; i++)
-            Chromosome baseChrom = this.CurrentGeneration.SelectParent();
+            GenerationDetails gen = this.CurrentGeneration as GenerationDetails;
+            for (int i = 0; i < this.CurrentGeneration.NumberOfChromosomes/2; i++)
             {
-                Chromosome spouse = (this.CurrentGeneration[(i+1)%(top-1)] as Chromosome);
-                // TODO: fix cast error
-                Chromosome[] chromosomeChildren = this.CurrentGeneration[i % (top - 1)].Reproduce(spouse, this.MutationRate);
+                Chromosome baseChromosome = (gen.SelectParent() as Chromosome);
+                Chromosome spouse = (gen.SelectParent() as Chromosome);
+                Chromosome[] chromosomeChildren = baseChromosome.Reproduce(spouse, this.MutationRate) as Chromosome[];
                 newChromosomesList.Add(chromosomeChildren[0]);
                 newChromosomesList.Add(chromosomeChildren[1]);
             }
