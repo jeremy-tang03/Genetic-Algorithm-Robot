@@ -53,13 +53,6 @@ namespace GeneticAlgorithm
             this.FitnessCalculation = fitnessCalculation;
         }
 
-        // TODO: this
-        public IGeneration GenerateGeneration(int populationSize, int numberOfGenes, int lengthOfGene, double mutationRate, double eliteRate, int numberOfTrials, FitnessEventHandler fitnessCalculation, int? seed = null)
-        {
-            throw new System.NotImplementedException();
-            // not sure how to create a generation using these parameters
-        }
-
         public IGeneration GenerateGeneration()
         {
             if (this.GenerationCount == 0)
@@ -83,15 +76,16 @@ namespace GeneticAlgorithm
             List<Chromosome> newChromosomesList = new List<Chromosome>();
             const int top = 20; // if we get the top 20, this is temporary
             for (int i = 0; i < this.CurrentGeneration.NumberOfChromosomes / 2; i++)
+            Chromosome baseChrom = this.CurrentGeneration.SelectParent();
             {
-                Chromosome spouse = (Chromosome)this.CurrentGeneration[(i+1)%(top-1)];
+                Chromosome spouse = (this.CurrentGeneration[(i+1)%(top-1)] as Chromosome);
                 // TODO: fix cast error
                 Chromosome[] chromosomeChildren = this.CurrentGeneration[i % (top - 1)].Reproduce(spouse, this.MutationRate);
                 newChromosomesList.Add(chromosomeChildren[0]);
                 newChromosomesList.Add(chromosomeChildren[1]);
             }
             Chromosome[] newChromosomes = newChromosomesList.ToArray();
-            IGeneration nextGeneration = GenerationDetails(newChromosomes, this);
+            IGeneration nextGeneration = new GenerationDetails(newChromosomes, this);
             this.CurrentGeneration = nextGeneration;
             this.GenerationCount++;
             return nextGeneration;
