@@ -69,7 +69,7 @@ namespace GeneticAlgorithm
                 {
                     chromosomes[i] = new Chromosome(200, 7L, this.Seed);
                 }
-                return new GenerationDetails(chromosomes, this, this.Seed);
+                return new GenerationDetails(chromosomes, this);
             }
             else
             {
@@ -91,7 +91,7 @@ namespace GeneticAlgorithm
                 newChromosomesList.Add(chromosomeChildren[1]);
             }
             Chromosome[] newChromosomes = newChromosomesList.ToArray();
-            IGeneration nextGeneration = GenerationDetails(newChromosomes, this, this.Seed);
+            IGeneration nextGeneration = GenerationDetails(newChromosomes, this);
             this.CurrentGeneration = nextGeneration;
             this.GenerationCount++;
             return nextGeneration;
