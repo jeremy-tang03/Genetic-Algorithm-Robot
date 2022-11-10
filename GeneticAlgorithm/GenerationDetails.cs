@@ -1,32 +1,39 @@
 namespace GeneticAlgorithm{
+
     public class GenerationDetails : IGenerationDetails {
 
-        private IChromosome[] chromosome = new IChromosome[200];
+        private IChromosome[] chromosomes = new IChromosome[200];
         private IGeneticAlgorithm iGenAlgorithm;
         private FitnessEventHandler fitnessHandle;
-        private string seed;
+        private int? seed;
 
 
-        public GenerationDetails(IGeneticAlgorithm iGenAlgorithm, FitnessEventHandler fitnessHandle, string seed){
+        public GenerationDetails(IGeneticAlgorithm iGenAlgorithm, FitnessEventHandler fitnessHandle, int? seed){
             this.iGenAlgorithm = iGenAlgorithm;
             this.fitnessHandle = fitnessHandle;
             this.seed = seed;
         }
 
-        public GenerationDetails(GenerationDetails gd){
-            this.iGenAlgorithm = gd.iGenAlgorithm;
-            this.fitnessHandle = gd.fitnessHandle;
-            this.seed = gd.seed;
-        }
+        // public GenerationDetails(GenerationDetails gd){
+        //     this.iGenAlgorithm = gd.iGenAlgorithm;
+        //     this.fitnessHandle = gd.fitnessHandle;
+        //     this.seed = gd.seed;
+        // }
 
+        public GenerationDetails(IChromosome[] chromosomes, GeneticAlgorithm genAlgorithm){
+            this.chromosomes = chromosomes;
+            this.iGenAlgorithm = genAlgorithm;
+            this.fitnessHandle = genAlgorithm.FitnessCalculation;
+            this.seed = genAlgorithm.seed;
+        }
 
 
         public double AverageFitness{
             get{
                 double fitnessSum = 0;
 
-                for(int i=0; i< chromosome.Length; i++){
-                    fitnessSum = fitnessSum + chromosome[i].Fitness;
+                for(int i=0; i< chromosomes.Length; i++){
+                    fitnessSum = fitnessSum + chromosomes[i].Fitness;
                 }
 
                 return fitnessSum/200;
@@ -35,9 +42,9 @@ namespace GeneticAlgorithm{
 
         public double MaxFitness{
             get{
-                double maxFitness = chromosome[0].Fitness;
+                double maxFitness = chromosomes[0].Fitness;
 
-                foreach(IChromosome chrom in chromosome){
+                foreach(IChromosome chrom in chromosomes){
                     if(chrom.Fitness > maxFitness){
                         maxFitness = chrom.Fitness;
                     }
@@ -51,7 +58,7 @@ namespace GeneticAlgorithm{
         public long NumberOfChromosomes{
 
             get{
-                return this.chromosome.Length;
+                return this.chromosomes.Length;
             }
         }
 
@@ -67,66 +74,60 @@ namespace GeneticAlgorithm{
 
             //Sort first to first 20
             //Random random = new Random[20]; Randomly select based on the these.
+            //Select a bunch randomly and get the highest out of that -- Alternative
+            // double[] sortedArray = new double[200];
 
-            double[] sortedArray = new double[200];
+            // IChromosome[] sorted = sortArray();
+    
+            chromosomes = sortArray();
+            System.Random random = new System.Random();
+            int num = random.Next(31);
+    
+            // return sorted[num];
+            return chromosomes[num];
 
+        }
 
-            // double bestFitness = chromosome[0].Fitness;
-            //200 ->> 300
+        public void EvaluateFitnessOfPopulation(){
+            
+            // Fire num of trials for average avlue for a chromosome
 
-            // double oldFitness;
-
-            //Gets the best fitness
-
-
-            // for(int i =0; i<chromosome.Length; i++){
-            //     double bestFitness = chromosome[i].Fitness;
+            //Compute the fitness
+            foreach(Chromosome chrom in chromosomes){
                 
-            //     for(int j=i; j<chromosome.Length;j++){
-            //         if(bestFitness < chromosome[j].Fitness){
-            //             bestFitness = chromosome[j].Fitness;
-                        
-            //         }
-            //     }
+                chrom.Fitness = fitnessHandle(chrom, this);
+                
+                if(iGenAlgorithm.NumberOfTrials > 1){
+                    chrom.Fitness = iGenAlgorithm.NumberOfTrials;
+                }
+            }
 
-            //     bestFitness = i;
-                // sortedArray[i] = bestFitness;
-            // }
+
+            //Sorting the values from descending order
+            chromosomes = sortArray();
+            
+        }
+
+        private IChromosome[] sortArray(){
+            //Sorts all the chromosomes based on best fitness
 
             IChromosome[] sorted = new IChromosome[200];
-
             int bestFitness = 0;
-            for(int i =0; i<chromosome.Length; i++){
+            for(int i =0; i<chromosomes.Length; i++){
 
                 bestFitness = i;
 
-                for(int j = i; j<chromosome.Length;j++){
+                for(int j = i; j<chromosomes.Length;j++){
 
-                    if(chromosome[i].Fitness < chromosome[j].Fitness){
+                    if(chromosomes[i].Fitness < chromosomes[j].Fitness){
 
                         bestFitness = j;
                     }
                 }
-                sorted[i] = chromosome[bestFitness]; 
-                
+                sorted[i] = chromosomes[bestFitness]; 
             }
 
-    
-            System.Random random = new System.Random();
-            int num = random.Next(21);
-
-    
-            return sorted[num];
-
-        }
-
-        public  void EvaluateFitnessOfPopulation(){
-            iGenAlgorithm.FitnessCalculation;
-
-            if(iGenAlgorithm.NumberOfTrials > 1){
-
-
-            }
+            return sorted;
         }
         
     }
