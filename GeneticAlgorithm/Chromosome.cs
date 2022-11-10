@@ -16,8 +16,18 @@ namespace GeneticAlgorithm
             }
         }
 
-        public double Fitness { get; set; }
-
+        public double Fitness { 
+            get 
+            {
+                return Fitness;
+            }
+            set 
+            {
+                Fitness = value;
+                FitnessIsInitialized = true;
+            }
+        }
+        public bool FitnessIsInitialized { get; private set; } = false;
         public int[] Genes { get; }
 
         public long Length { get; }
@@ -64,6 +74,10 @@ namespace GeneticAlgorithm
 
         public int CompareTo([AllowNull] IChromosome other)
         {
+            if ((other.FitnessIsInitialized == false) || (FitnessIsInitialized == false)){
+                return 0;
+            }
+            
             if (Fitness < other.Fitness)
             {
                 return -1;
@@ -111,10 +125,10 @@ namespace GeneticAlgorithm
                 }
 
                 double chanceOfMutation = 1 / mutationProb;
-                int uppwerBound = (int)Math.Round(chanceOfMutation);
+                int upperBoundMutation = (int)Math.Round(chanceOfMutation);
                 for (int i = 0; i < child1Genes.Length; i++)
                 {
-                    int randNumber = random.Next(0, upperBound);
+                    int randNumber = random.Next(0, upperBoundMutation);
                     if (randNumber == 0)
                     {
                         child1Genes[i] = random.Next(0, (int)Length);
