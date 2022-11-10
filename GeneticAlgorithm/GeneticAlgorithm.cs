@@ -17,7 +17,7 @@ namespace GeneticAlgorithm
 
         public int NumberOfTrials { get; }
 
-        public long GenerationCount { get; }
+        public long GenerationCount { get; private set; }
 
         public int? Seed { get; }
 
@@ -39,9 +39,8 @@ namespace GeneticAlgorithm
                 this.MutationRate = mutationRate;
                 this.EliteRate = eliteRate;
                 this.NumberOfTrials = numberOfTrials;
-                this.FitnessCalculation = fitnessCalculation;
             }
-            if (seed != null)
+            if (seed != null) // not sure if this check is necessary
             {
                 this.Seed = (int)seed;
             }
@@ -49,13 +48,16 @@ namespace GeneticAlgorithm
             {
                 this.Seed = seed;
             }
-
-            // return GenerateGeneration(populationSize, numberOfGenes, lengthOfGene, mutationRate, eliteRate, numberOfTrials, fitnessCalculation, seed);
+            this.GenerationCount = 0;
+            this.CurrentGeneration = GenerateGeneration(populationSize, numberOfGenes, lengthOfGene, mutationRate, eliteRate, numberOfTrials, fitnessCalculation, seed);
+            this.FitnessCalculation = fitnessCalculation;
         }
 
+        // TODO: this
         public IGeneration GenerateGeneration(int populationSize, int numberOfGenes, int lengthOfGene, double mutationRate, double eliteRate, int numberOfTrials, FitnessEventHandler fitnessCalculation, int? seed = null)
         {
             throw new System.NotImplementedException();
+            // not sure how to create a generation using these parameters
         }
 
         public IGeneration GenerateGeneration()
@@ -77,12 +79,13 @@ namespace GeneticAlgorithm
 
         private IGeneration GenerateNextGeneration()
         {
-            // TODO: check fitness
+            // TODO: check fitness?
             List<Chromosome> newChromosomesList = new List<Chromosome>();
-            const int top = 20; // if top parents count is 20
+            const int top = 20; // if we get the top 20, this is temporary
             for (int i = 0; i < this.CurrentGeneration.NumberOfChromosomes / 2; i++)
             {
-                Chromosome spouse = (Chromosome)this.CurrentGeneration[i]; //this.CurrentGeneration[(i+1)%(top-1)]
+                Chromosome spouse = (Chromosome)this.CurrentGeneration[(i+1)%(top-1)];
+                // TODO: fix cast error
                 Chromosome[] chromosomeChildren = this.CurrentGeneration[i % (top - 1)].Reproduce(spouse, this.MutationRate);
                 newChromosomesList.Add(chromosomeChildren[0]);
                 newChromosomesList.Add(chromosomeChildren[1]);
@@ -90,6 +93,7 @@ namespace GeneticAlgorithm
             Chromosome[] newChromosomes = newChromosomesList.ToArray();
             IGeneration nextGeneration = GenerationDetails(newChromosomes, this, this.Seed);
             this.CurrentGeneration = nextGeneration;
+            this.GenerationCount++;
             return nextGeneration;
         }
     }
