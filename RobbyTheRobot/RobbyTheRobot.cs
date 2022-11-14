@@ -24,7 +24,6 @@ namespace RobbyTheRobot
             // not sure for populationSize
             //not sure for seed
             this.GridSize = 100; // TODO: temporary, for testing
-            this.GenerateRandomTestGrid(); // this too
         }
 
         public void GeneratePossibleSolutions(string folderPath)
@@ -73,18 +72,6 @@ namespace RobbyTheRobot
                     }
                 }
             }
-
-            // TODO: to remove, this is for testing
-            Console.WriteLine("cans: " + canCount + ", grid area: " + gridArea);
-            for (int i = 0; i < contents.GetLength(0); i++)
-            {
-                for (int j = 0; j < contents.GetLength(1); j++)
-                {
-                    Console.Write("{0} ", contents[i, j]);
-                }
-                Console.Write("\n");
-            }
-
             return contents;
         }
     }
