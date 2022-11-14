@@ -9,7 +9,7 @@ namespace Tests
     {
         [TestMethod]
         public void GenerateRandomTestGridTest(){
-            ContentsOfGrid[,] grid = Robby.createRobby(1, 100, 1, null).GenerateRandomTestGrid();
+            ContentsOfGrid[,] grid = Robby.createRobby(1, 10, 1, null).GenerateRandomTestGrid();
 
             int canCount = 0;
             int emptyCount = 0;
@@ -30,6 +30,11 @@ namespace Tests
             Console.WriteLine("cans: " + canCount + ", empty: " + emptyCount + ", grid area: " + grid.Length);
             Assert.AreEqual(canCount, grid.Length/2);
             Assert.AreEqual(emptyCount, grid.Length/2);
+        }
+
+        [TestMethod]
+        public void test(){
+            var r = Robby.createRobby(10,10,10,null);
         }
     }
 }
