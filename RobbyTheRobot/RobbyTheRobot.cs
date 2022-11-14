@@ -23,7 +23,8 @@ namespace RobbyTheRobot
             this.NumberOfActions = numberOfTrials;
             // not sure for populationSize
             //not sure for seed
-            this.GridSize = 25; // temporary, for testing
+            this.GridSize = 100; // TODO: temporary, for testing
+            this.GenerateRandomTestGrid(); // this too
         }
 
         public void GeneratePossibleSolutions(string folderPath)
@@ -35,26 +36,45 @@ namespace RobbyTheRobot
         {
             // assuming grid is square
             int side = (int)Math.Floor(Math.Sqrt(this.GridSize));
-            int gridArea = side*side;
+            int gridArea = side * side;
             ContentsOfGrid[,] contents = new ContentsOfGrid[side, side];
             Random random = new Random();
             int canCount = 0;
+            int emptyCount = 0;
+            int half = (int)Math.Floor((double)gridArea / 2);
 
             for (int i = 0; i < contents.GetLength(0); i++)
             {
                 for (int j = 0; j < contents.GetLength(1); j++)
                 {
-                    int num = random.Next(2);
-                    if (num == 0 && canCount <= Math.Floor((double)gridArea/2))
+                    if (canCount >= half)
+                    {
+                        contents[i, j] = ContentsOfGrid.Empty;
+                        emptyCount++;
+                    }
+                    else if (emptyCount >= half)
                     {
                         contents[i, j] = ContentsOfGrid.Can;
                         canCount++;
-                    } else {
-                        contents[i, j] = ContentsOfGrid.Empty;
+                    }
+                    else
+                    {
+                        int num = random.Next(2);
+                        if (num == 0)
+                        {
+                            contents[i, j] = ContentsOfGrid.Can;
+                            canCount++;
+                        }
+                        else
+                        {
+                            contents[i, j] = ContentsOfGrid.Empty;
+                            emptyCount++;
+                        }
                     }
                 }
             }
 
+            // TODO: to remove, this is for testing
             Console.WriteLine("cans: " + canCount + ", grid area: " + gridArea);
             for (int i = 0; i < contents.GetLength(0); i++)
             {
