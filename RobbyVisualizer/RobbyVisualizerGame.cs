@@ -4,12 +4,19 @@ using Microsoft.Xna.Framework.Input;
 
 namespace RobbyVisualizer
 {
-    public class Game1 : Game
+    public class RobbyVisualizerGame : Game
     {
         private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
 
-        public Game1()
+        private SpriteBatch _spriteBatch;
+        
+        private string _generationText = "Generation: 0";
+
+        private string _moveText = "Move: 0/200";
+
+        private string _pointsText = "Points: 0/500";
+
+        public RobbyVisualizerGame()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -19,7 +26,9 @@ namespace RobbyVisualizer
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            _graphics.PreferredBackBufferWidth = 702;
+            _graphics.PreferredBackBufferHeight = 900;
+            _graphics.ApplyChanges();
             base.Initialize();
         }
 
@@ -42,11 +51,32 @@ namespace RobbyVisualizer
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
-            // TODO: Add your drawing code here
+            SpriteFont font = this.Content.Load<SpriteFont>("LetterFont");
+
+
+            _spriteBatch.Begin();
+            drawBoard();
+            Vector2 generationTextPosition = new Vector2(50, 730);
+            //_spriteBatch.DrawString(font, _generationText, generationTextPosition, Color.White);
+
+            _spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        protected void drawBoard(){
+            int row = 10;
+            int column = 10;
+            int rectangleSideLength = 70;
+            Texture2D rectangle = new Texture2D(GraphicsDevice, row, column);
+            for (int i = 0; i < row; ++i){
+                for (int j = 0; j < column; ++j)
+                {
+                    GridTileSprite.DrawTile(_spriteBatch, new Rectangle(i * rectangleSideLength, j * rectangleSideLength, rectangleSideLength, rectangleSideLength), Color.White, 2);
+                }
+            }
         }
     }
 }
