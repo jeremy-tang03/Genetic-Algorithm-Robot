@@ -23,6 +23,7 @@ namespace RobbyTheRobot
             this.NumberOfActions = numberOfTrials;
             // not sure for populationSize
             //not sure for seed
+            this.GridSize = 25; // temporary, for testing
         }
 
         public void GeneratePossibleSolutions(string folderPath)
