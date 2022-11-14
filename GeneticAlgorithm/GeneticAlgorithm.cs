@@ -57,10 +57,10 @@ namespace GeneticAlgorithm
         {
             if (this.GenerationCount == 0)
             {
-                Chromosome[] chromosomes = new Chromosome[200];
+                Chromosome[] chromosomes = new Chromosome[this.PopulationSize];
                 for (int i = 0; i < chromosomes.Length; i++)
                 {
-                    chromosomes[i] = new Chromosome(200, 7L, this.Seed);
+                    chromosomes[i] = new Chromosome(this.NumberOfGenes, this.LengthOfGene, this.Seed);
                 }
                 return new GenerationDetails(chromosomes, this);
             }
