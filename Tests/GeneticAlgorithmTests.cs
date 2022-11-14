@@ -1,5 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using GA = GeneticAlgorithm;
+using System;
 
 namespace Tests
 {
@@ -8,10 +9,10 @@ namespace Tests
     {
         [TestMethod]
         public void TestConstructorValidParams(){
-            GA.GeneticAlgorithm algo = new GA.GeneticAlgorithm(200, 200, 200, 5, 10, 2, null, null);
-            Assert.AreEqual(algo.PopulationSize, 200);
-            Assert.AreEqual(algo.NumberOfGenes, 200);
-            Assert.AreEqual(algo.LengthOfGene, 200);
+            GA.GeneticAlgorithm algo = new GA.GeneticAlgorithm(3, 3, 3, 5, 10, 2, null, null);            
+            Assert.AreEqual(algo.PopulationSize, 3);
+            Assert.AreEqual(algo.NumberOfGenes, 3);
+            Assert.AreEqual(algo.LengthOfGene, 3);
             Assert.AreEqual(algo.MutationRate, 5);
             Assert.AreEqual(algo.EliteRate, 10);
             Assert.AreEqual(algo.NumberOfTrials, 2);
