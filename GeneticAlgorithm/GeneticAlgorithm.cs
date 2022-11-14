@@ -62,6 +62,7 @@ namespace GeneticAlgorithm
                 {
                     chromosomes[i] = new Chromosome(this.NumberOfGenes, this.LengthOfGene, this.Seed);
                 }
+                this.GenerationCount++;
                 return new GenerationDetails(chromosomes, this);
             }
             else
@@ -72,15 +73,32 @@ namespace GeneticAlgorithm
 
         private IGeneration GenerateNextGeneration()
         {
+            double tempTopAmount = (this.CurrentGeneration.NumberOfChromosomes * this.EliteRate) / 100;
+            int topAmount = (int)Math.Floor(tempTopAmount);
             List<Chromosome> newChromosomesList = new List<Chromosome>();
+            for (int i = 0; i < topAmount; i++)
+            {
+                newChromosomesList.Add(this.CurrentGeneration[i] as Chromosome);
+            }
+
             GenerationDetails gen = this.CurrentGeneration as GenerationDetails;
-            for (int i = 0; i < this.CurrentGeneration.NumberOfChromosomes/2; i++)
+            for (int i = topAmount - 1; i < this.CurrentGeneration.NumberOfChromosomes / 2; i++) //TODO: to test
             {
                 Chromosome baseChromosome = (gen.SelectParent() as Chromosome);
                 Chromosome spouse = (gen.SelectParent() as Chromosome);
                 Chromosome[] chromosomeChildren = baseChromosome.Reproduce(spouse, this.MutationRate) as Chromosome[];
-                newChromosomesList.Add(chromosomeChildren[0]);
-                newChromosomesList.Add(chromosomeChildren[1]);
+                if(newChromosomesList.Count == this.CurrentGeneration.NumberOfChromosomes){
+                    break;
+                }
+                else if (newChromosomesList.Count < this.CurrentGeneration.NumberOfChromosomes) // space for 1 new only
+                {
+                    newChromosomesList.Add(chromosomeChildren[0]);
+                }
+                else
+                {
+                    newChromosomesList.Add(chromosomeChildren[0]);
+                    newChromosomesList.Add(chromosomeChildren[1]);
+                }
             }
             Chromosome[] newChromosomes = newChromosomesList.ToArray();
             IGeneration nextGeneration = new GenerationDetails(newChromosomes, this);
