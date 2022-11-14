@@ -24,7 +24,7 @@ namespace GeneticAlgorithm{
             this.chromosomes = chromosomes;
             this.iGenAlgorithm = genAlgorithm;
             this.fitnessHandle = genAlgorithm.FitnessCalculation;
-            this.seed = genAlgorithm.seed;
+            this.seed = genAlgorithm.Seed;
         }
 
 
@@ -93,12 +93,17 @@ namespace GeneticAlgorithm{
             // Fire num of trials for average avlue for a chromosome
 
             //Compute the fitness
+            double averageFitness = 0;
             foreach(Chromosome chrom in chromosomes){
-                
                 chrom.Fitness = fitnessHandle(chrom, this);
                 
                 if(iGenAlgorithm.NumberOfTrials > 1){
-                    chrom.Fitness = iGenAlgorithm.NumberOfTrials;
+
+                    for(int i =0; i<iGenAlgorithm.NumberOfTrials; i++){
+                        averageFitness = averageFitness + fitnessHandle(chrom, this);
+                    }
+
+                    chrom.Fitness = averageFitness/iGenAlgorithm.NumberOfTrials;
                 }
             }
 
