@@ -53,7 +53,7 @@ namespace RobbyVisualizer
         {
             GraphicsDevice.Clear(Color.Black);
 
-            SpriteFont font = this.Content.Load<SpriteFont>("LetterFont");
+            //SpriteFont font = this.Content.Load<SpriteFont>("LetterFont");
 
 
             _spriteBatch.Begin();
@@ -61,6 +61,11 @@ namespace RobbyVisualizer
             Vector2 generationTextPosition = new Vector2(50, 730);
             //_spriteBatch.DrawString(font, _generationText, generationTextPosition, Color.White);
 
+            Vector2 moveTextPosition = new Vector2(50, 750);
+            //_spriteBatch.DrawString(font, _moveText, moveTextPosition, Color.White);
+
+            Vector2 pointsTextPosition = new Vector2(50, 770);
+            //_spriteBatch.DrawString(font, _pointsText, pointsTextPosition, Color.White);  
             _spriteBatch.End();
 
             base.Draw(gameTime);
