@@ -15,20 +15,24 @@ namespace RobbyTheRobot
         public double MutationRate { get; }
 
         public double EliteRate { get; }
+        private GeneticAlgorithm.GeneticAlgorithm GA;
 
-        public RobbyTheRobot(int numberOfGenerations, int populationSize, int numberOfTrials, int? seed)
+        public RobbyTheRobot(int numberOfActions, int numberOfTestGrids, int numberOfGenerations, double mutationRate, double eliteRate, int populationSize, int numberOfTrials, int gridSize = 10, int? seed = null)
         {
+            // TODO: input validation
             this.NumberOfGenerations = numberOfGenerations;
-            //not sure if this is right
-            this.NumberOfActions = numberOfTrials;
-            // not sure for populationSize
-            //not sure for seed
-            this.GridSize = 10;
+            this.NumberOfTestGrids = numberOfTestGrids;
+            this.NumberOfGenerations = numberOfGenerations;
+            this.MutationRate = mutationRate;
+            this.EliteRate = eliteRate;
+            this.GridSize = GridSize;
+
+            GA = new GeneticAlgorithm.GeneticAlgorithm(3,3,3,1,5,1,null,null); // temporary
         }
 
         public void GeneratePossibleSolutions(string folderPath)
         {
-            throw new System.NotImplementedException();
+            var topGene = GA.CurrentGeneration[0].Genes;
         }
 
         public ContentsOfGrid[,] GenerateRandomTestGrid()
