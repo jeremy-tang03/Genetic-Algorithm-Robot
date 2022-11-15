@@ -19,15 +19,21 @@ namespace RobbyTheRobot
 
         public RobbyTheRobot(int numberOfActions, int numberOfTestGrids, int numberOfGenerations, double mutationRate, double eliteRate, int populationSize, int numberOfTrials, int gridSize = 10, int? seed = null)
         {
-            // TODO: input validation
-            this.NumberOfGenerations = numberOfGenerations;
-            this.NumberOfTestGrids = numberOfTestGrids;
-            this.NumberOfGenerations = numberOfGenerations;
-            this.MutationRate = mutationRate;
-            this.EliteRate = eliteRate;
-            this.GridSize = GridSize;
+            if (numberOfActions <= 0 || numberOfTestGrids <= 0 || numberOfGenerations <= 0 || mutationRate < 0 || eliteRate < 0 || populationSize <= 0 || numberOfTrials <= 0)
+            {
+                throw new ArgumentException();
+            }
+            else
+            {
+                this.NumberOfGenerations = numberOfGenerations;
+                this.NumberOfTestGrids = numberOfTestGrids;
+                this.NumberOfGenerations = numberOfGenerations;
+                this.MutationRate = mutationRate;
+                this.EliteRate = eliteRate;
+                this.GridSize = GridSize;
 
-            GA = new GeneticAlgorithm.GeneticAlgorithm(3,3,3,1,5,1,null,null); // temporary
+                GA = new GeneticAlgorithm.GeneticAlgorithm(3, 3, 3, 1, 5, 1, null, null); // temporary
+            }
         }
 
         public void GeneratePossibleSolutions(string folderPath)
