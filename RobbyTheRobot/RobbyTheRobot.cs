@@ -35,41 +35,42 @@ namespace RobbyTheRobot
         {
             ContentsOfGrid[,] contents = new ContentsOfGrid[this.GridSize, this.GridSize];
             Random random = new Random();
-            int canCount = 0;
-            int emptyCount = 0;
+            int count = 0;
             int half = contents.Length / 2;
 
             for (int i = 0; i < contents.GetLength(0); i++)
             {
                 for (int j = 0; j < contents.GetLength(1); j++)
                 {
-                    if (canCount >= half)
-                    {
+                    if (count >= half)
                         contents[i, j] = ContentsOfGrid.Empty;
-                        emptyCount++;
-                    }
-                    else if (emptyCount >= half)
-                    {
-                        contents[i, j] = ContentsOfGrid.Can;
-                        canCount++;
-                    }
                     else
-                    {
-                        int num = random.Next(2);
-                        if (num == 0)
-                        {
-                            contents[i, j] = ContentsOfGrid.Can;
-                            canCount++;
-                        }
-                        else
-                        {
-                            contents[i, j] = ContentsOfGrid.Empty;
-                            emptyCount++;
-                        }
-                    }
+                        contents[i, j] = ContentsOfGrid.Can;
+                    count++;
                 }
             }
+            Shuffle(contents, random);
             return contents;
+        }
+
+        // shuffles the content of a grid
+        private static void Shuffle(ContentsOfGrid[,] contents, Random random)
+        {
+            int rowLength = contents.GetLength(1);
+            // using Fisher–Yates shuffle Algorithm
+            for (int i = contents.Length - 1; i > 0; i--)
+            {
+                int i0 = i / rowLength;
+                int i1 = i % rowLength;
+
+                int j = random.Next(i + 1);
+                int j0 = j / rowLength;
+                int j1 = j % rowLength;
+
+                ContentsOfGrid temp = contents[i0, i1];
+                contents[i0, i1] = contents[j0, j1];
+                contents[j0, j1] = temp;
+            }
         }
     }
 }
