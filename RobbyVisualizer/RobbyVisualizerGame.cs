@@ -58,6 +58,8 @@ namespace RobbyVisualizer
 
             _spriteBatch.Begin();
             drawBoard();
+            Texture2D canTexture = this.Content.Load<Texture2D>("can");
+
             Vector2 generationTextPosition = new Vector2(50, 730);
             //_spriteBatch.DrawString(font, _generationText, generationTextPosition, Color.White);
 
@@ -66,6 +68,10 @@ namespace RobbyVisualizer
 
             Vector2 pointsTextPosition = new Vector2(50, 770);
             //_spriteBatch.DrawString(font, _pointsText, pointsTextPosition, Color.White);  
+            
+            Vector2 canPosition = new Vector2(0, 0);
+            _spriteBatch.Draw(canTexture, canPosition, Color.White);
+
             _spriteBatch.End();
 
             base.Draw(gameTime);
@@ -82,6 +88,10 @@ namespace RobbyVisualizer
                     GridTileSprite.DrawTile(_spriteBatch, new Rectangle(i * rectangleSideLength, j * rectangleSideLength, rectangleSideLength, rectangleSideLength), Color.White, 2);
                 }
             }
+        }
+
+        protected void drawCircle(Texture2D png){
+            
         }
     }
 }
