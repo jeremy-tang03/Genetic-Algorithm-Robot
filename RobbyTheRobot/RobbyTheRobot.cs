@@ -1,4 +1,5 @@
 using System;
+using GeneticAlgorithm;
 
 namespace RobbyTheRobot
 {
@@ -15,7 +16,7 @@ namespace RobbyTheRobot
         public double MutationRate { get; }
 
         public double EliteRate { get; }
-        private GeneticAlgorithm.GeneticAlgorithm GA;
+        private GeneticAlgorithm.GeneticAlgorithm GA { get; }
 
         public RobbyTheRobot(int numberOfActions, int numberOfTestGrids, int numberOfGenerations, double mutationRate, double eliteRate, int populationSize, int numberOfTrials, int gridSize = 10, int? seed = null)
         {
@@ -30,15 +31,29 @@ namespace RobbyTheRobot
                 this.NumberOfGenerations = numberOfGenerations;
                 this.MutationRate = mutationRate;
                 this.EliteRate = eliteRate;
-                this.GridSize = GridSize;
+                this.GridSize = gridSize;
 
-                GA = new GeneticAlgorithm.GeneticAlgorithm(3, 3, 3, 1, 5, 1, null, null); // temporary
+                GA = new GeneticAlgorithm.GeneticAlgorithm(3, 3, 3, 1, 5, 1, null, seed); // temporary
             }
         }
 
-        public void GeneratePossibleSolutions(string folderPath)
+        public void GeneratePossibleSolutions(string folderPath) //TODO: loop next gens  
         {
-            var topGene = GA.CurrentGeneration[0].Genes;
+            // var topGene = GA.CurrentGeneration[0].Genes;
+            var gen = GA.CurrentGeneration as GenerationDetails;
+            // Console.WriteLine(gen.MaxFitness);
+
+            string lines = gen.MaxFitness + ", "+ gen[0].Genes.Length + ", " + gen[0].Genes + "\r\n";
+
+            // Write the string to a file.
+            System.IO.File.WriteAllText("C:\\Users\\Jeremy\\Desktop\\test.txt", lines);
+            // Open the file to read from.
+            string readText = System.IO.File.ReadAllText("C:\\Users\\Jeremy\\Desktop\\test.txt");
+            Console.WriteLine(readText);
+
+            // System.IO.StreamWriter file = new System.IO.StreamWriter(folderPath);
+            // file.WriteLine(lines);
+            // file.Close();
         }
 
         public ContentsOfGrid[,] GenerateRandomTestGrid()

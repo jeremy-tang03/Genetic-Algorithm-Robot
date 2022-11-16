@@ -28,20 +28,19 @@ namespace GeneticAlgorithm
         public GeneticAlgorithm(int populationSize, int numberOfGenes, int lengthOfGene, double mutationRate, double eliteRate, int numberOfTrials, FitnessEventHandler fitnessCalculation, int? seed = null)
         {
             if (populationSize <= 0 || numberOfGenes <= 0 || lengthOfGene <= 0 || mutationRate < 0 || eliteRate < 0 || numberOfTrials < 0)
+            {
                 throw new ArgumentException();
+            }
             else
+            {
                 this.PopulationSize = populationSize;
                 this.NumberOfGenes = numberOfGenes;
                 this.LengthOfGene = lengthOfGene;
                 this.MutationRate = mutationRate;
                 this.EliteRate = eliteRate;
                 this.NumberOfTrials = numberOfTrials;
-
-            if (seed != null) // not sure if this is necessary
-                this.Seed = (int)seed;
-            else
                 this.Seed = seed;
-
+            }
             this.GenerationCount = 0;
             this.CurrentGeneration = GenerateGeneration();
             this.FitnessCalculation = fitnessCalculation;
@@ -58,19 +57,26 @@ namespace GeneticAlgorithm
                 return new GenerationDetails(chromosomes, this);
             }
             else
+            {
                 return GenerateNextGeneration();
+            }
         }
 
         private IGeneration GenerateNextGeneration()
         {
-            double tempTopAmount = (this.CurrentGeneration.NumberOfChromosomes * this.EliteRate) / 100;
-            int topAmount = (int)Math.Floor(tempTopAmount);
             List<Chromosome> newChromosomesList = new List<Chromosome>();
-            for (int i = 0; i < topAmount; i++)
-                newChromosomesList.Add(this.CurrentGeneration[i] as Chromosome);
+            int topAmount = 0;
+
+            if (this.EliteRate != 0)
+            {
+                double tempTopAmount = (this.CurrentGeneration.NumberOfChromosomes * this.EliteRate) / 100;
+                topAmount = (int)Math.Floor(tempTopAmount);
+                for (int i = 0; i < topAmount; i++)
+                    newChromosomesList.Add(this.CurrentGeneration[i] as Chromosome);
+            }
 
             GenerationDetails gen = this.CurrentGeneration as GenerationDetails;
-            for (int i = topAmount - 1; i < this.CurrentGeneration.NumberOfChromosomes / 2; i++) //TODO: to test
+            for (int i = topAmount; i <= this.CurrentGeneration.NumberOfChromosomes / 2; i++) //TODO: to test
             {
                 Chromosome baseChromosome = (gen.SelectParent() as Chromosome);
                 Chromosome spouse = (gen.SelectParent() as Chromosome);
