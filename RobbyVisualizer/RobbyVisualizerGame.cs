@@ -10,6 +10,12 @@ namespace RobbyVisualizer
 
         private SpriteBatch _spriteBatch;
         
+        private Texture2D _robotTexture;
+
+        private Texture2D _canTexture;
+
+        private SpriteFont _font;
+
         private string _generationText = "Generation: 0";
 
         private string _moveText = "Move: 0/200";
@@ -28,6 +34,13 @@ namespace RobbyVisualizer
             // TODO: Add your initialization logic here
             _graphics.PreferredBackBufferWidth = 702;
             _graphics.PreferredBackBufferHeight = 900;
+            
+            GraphicsDevice.Clear(Color.Black);
+
+            _font = this.Content.Load<SpriteFont>("LetterFont");
+            _canTexture = this.Content.Load<Texture2D>("can");
+            _robotTexture = this.Content.Load<Texture2D>("robot2");
+
             _graphics.ApplyChanges();
             base.Initialize();
         }
@@ -51,26 +64,27 @@ namespace RobbyVisualizer
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Black);
-
-            //SpriteFont font = this.Content.Load<SpriteFont>("LetterFont");
-
-
             _spriteBatch.Begin();
             drawBoard();
-            Texture2D canTexture = this.Content.Load<Texture2D>("can");
 
-            Vector2 generationTextPosition = new Vector2(50, 730);
-            //_spriteBatch.DrawString(font, _generationText, generationTextPosition, Color.White);
-
-            Vector2 moveTextPosition = new Vector2(50, 750);
-            //_spriteBatch.DrawString(font, _moveText, moveTextPosition, Color.White);
-
-            Vector2 pointsTextPosition = new Vector2(50, 770);
-            //_spriteBatch.DrawString(font, _pointsText, pointsTextPosition, Color.White);  
+            Vector2 generationTextPosition = new Vector2(30, 720);
+            _spriteBatch.DrawString(_font, _generationText, generationTextPosition, Color.White);
+            Vector2 moveTextPosition = new Vector2(30, 780);
+            _spriteBatch.DrawString(_font, _moveText, moveTextPosition, Color.White);
+            Vector2 pointsTextPosition = new Vector2(30, 840);
+            _spriteBatch.DrawString(_font, _pointsText, pointsTextPosition, Color.White);  
+            
             
             Vector2 canPosition = new Vector2(0, 0);
-            _spriteBatch.Draw(canTexture, canPosition, Color.White);
+            _spriteBatch.Draw(_canTexture, canPosition, Color.White);
+
+            //each tile is 70 x 70
+            //add 3 pixels to each side to make it look better
+            Vector2 robotPosition = new Vector2(73, 73);
+            _spriteBatch.Draw(_robotTexture, robotPosition, Color.White);
+
+            //reset a tile
+            drawBlackTile(70, 70, 70);
 
             _spriteBatch.End();
 
@@ -85,13 +99,30 @@ namespace RobbyVisualizer
             for (int i = 0; i < row; ++i){
                 for (int j = 0; j < column; ++j)
                 {
-                    GridTileSprite.DrawTile(_spriteBatch, new Rectangle(i * rectangleSideLength, j * rectangleSideLength, rectangleSideLength, rectangleSideLength), Color.White, 2);
+                    drawTile(i * rectangleSideLength, j * rectangleSideLength, rectangleSideLength);
                 }
             }
         }
 
-        protected void drawCircle(Texture2D png){
-            
+        protected void drawTile(int x, int y, int height){
+            GridTileSprite.DrawTile(_spriteBatch, new Rectangle(x, y, height, height), Color.White, 2);
+        }
+
+        protected void drawBlackTile(int x, int y, int height){
+            Texture2D blackBox = new Texture2D(this.GraphicsDevice, height, height);
+            Color[] colorArray = new Color[height*height];
+            for (int i = 0; i < colorArray.Length; i++)
+            {
+                colorArray[i] = Color.Black;
+            }
+            blackBox.SetData(colorArray);
+            Vector2 coordinates = new Vector2(x, y);
+            _spriteBatch.Draw(blackBox, coordinates, Color.Black);
+
+            drawTile(x, y, height);
+        }
+        protected void drawCan(){
+
         }
     }
 }
