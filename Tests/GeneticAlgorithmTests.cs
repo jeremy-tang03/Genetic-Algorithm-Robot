@@ -8,21 +8,59 @@ namespace Tests
     public class GeneticAlgorithmTests
     {
         [TestMethod]
-        public void TestConstructorValidParams(){
-            GA.GeneticAlgorithm algo = new GA.GeneticAlgorithm(3, 3, 3, 5, 10, 2, null, null);            
-            Assert.AreEqual(algo.PopulationSize, 3);
-            Assert.AreEqual(algo.NumberOfGenes, 3);
-            Assert.AreEqual(algo.LengthOfGene, 3);
-            Assert.AreEqual(algo.MutationRate, 5);
-            Assert.AreEqual(algo.EliteRate, 10);
-            Assert.AreEqual(algo.NumberOfTrials, 2);
-            Assert.AreEqual(algo.FitnessCalculation, null);
-            Assert.AreEqual(algo.Seed, null);
+        public void TestConstructorValidParams()
+        {
+            GA.GeneticAlgorithm algo = new GA.GeneticAlgorithm(1, 10, 7, 5, 10, 2, null, 100);
+            GA.Chromosome[] chroms = { new GA.Chromosome(algo.NumberOfGenes, algo.LengthOfGene, algo.Seed) };
+            GA.GeneticAlgorithm algo1 = new GA.GeneticAlgorithm(1, 10, 7, 5, 10, 2, null, 100);
+            GA.Chromosome[] chroms1 = { new GA.Chromosome(algo1.NumberOfGenes, algo1.LengthOfGene, algo1.Seed) };
+
+            Assert.AreEqual(1, algo.PopulationSize);
+            Assert.AreEqual(10, algo.NumberOfGenes);
+            Assert.AreEqual(7, algo.LengthOfGene);
+            Assert.AreEqual(5, algo.MutationRate);
+            Assert.AreEqual(10, algo.EliteRate);
+            Assert.AreEqual(2, algo.NumberOfTrials);
+            Assert.AreEqual(null, algo.FitnessCalculation);
+            Assert.AreEqual(100, algo.Seed);
+            CollectionAssert.AreEqual(algo.CurrentGeneration[0].Genes, algo1.CurrentGeneration[0].Genes);
         }
 
         [TestMethod]
-        public void TestConstructorInvalidParams(){
-            
+        public void TestConstructorInvalidParams()
+        {
+
+        }
+
+        [TestMethod]
+        public void TestGenerateGeneration()
+        {
+            GA.GeneticAlgorithm algo = new GA.GeneticAlgorithm(5, 10, 7, 5, 10, 2, null, 100);
+            long chromCount = algo.CurrentGeneration.NumberOfChromosomes;
+            // int[] gen1Genes = algo.CurrentGeneration[100].Genes;
+            algo.GenerateGeneration();
+            Assert.AreEqual(2, algo.GenerationCount);
+            Assert.AreEqual(chromCount, algo.CurrentGeneration.NumberOfChromosomes);
+            // Array.ForEach(gen1Genes, Console.Write);
+            // Console.WriteLine("");
+            // Array.ForEach(algo.CurrentGeneration[100].Genes, Console.Write);
+            // CollectionAssert.AreNotEqual(gen1Genes, algo.CurrentGeneration[100].Genes);
+        }
+
+        [TestMethod]
+        public void TestGenerateGenerationFitness()
+        {
+            GA.GeneticAlgorithm algo = new GA.GeneticAlgorithm(50, 10, 7, 5, 0, 2, null, 100);
+            var gen1Fitness = algo.CurrentGeneration.AverageFitness;
+            Console.WriteLine(algo.GenerationCount + ": " + gen1Fitness);
+            for (int i = 0; i < 10; i++)
+            {
+                algo.GenerateGeneration();
+            }
+            var gen10Fitness = algo.CurrentGeneration.AverageFitness;
+            Console.WriteLine(algo.GenerationCount + ": " + gen10Fitness);
         }
     }
 }
+
+//fitness, eliterate
