@@ -29,8 +29,7 @@ namespace GeneticAlgorithm
 
         public GeneticAlgorithm(int populationSize, int numberOfGenes, int lengthOfGene, double mutationRate, double eliteRate, int numberOfTrials, FitnessEventHandler fitnessCalculation, int? seed = null)
         {
-            if (populationSize <= 0 || numberOfGenes <= 0 || lengthOfGene <= 0 || mutationRate < 0
-                || mutationRate > 100 || eliteRate < 0 || eliteRate > 100 || numberOfTrials < 0)
+            if (populationSize <= 0 || numberOfGenes <= 0 || lengthOfGene <= 0 || numberOfTrials < 0)
             {
                 throw new ArgumentException();
             }
@@ -45,8 +44,8 @@ namespace GeneticAlgorithm
                 this._seed = seed;
             }
             this._generationCount = 0;
-            this._currentGeneration = GenerateGeneration();
             this._fitnessCalculation = fitnessCalculation;
+            this._currentGeneration = GenerateGeneration();
         }
 
         public IGeneration GenerateGeneration()
@@ -84,7 +83,7 @@ namespace GeneticAlgorithm
             {
                 if (newChromosomesList.Count == this._currentGeneration.NumberOfChromosomes)
                 {
-                    Console.WriteLine("BREAK");
+                    // Console.WriteLine("BREAK");
                     reproducing = false;
                     break;
                 }
@@ -93,7 +92,7 @@ namespace GeneticAlgorithm
                 Chromosome[] chromosomeChildren = baseChromosome.Reproduce(spouse, this._mutationRate) as Chromosome[];
                 if (newChromosomesList.Count == this._currentGeneration.NumberOfChromosomes - 1) // space for 1 new only
                 {
-                    Console.WriteLine("SPACE FOR 1");
+                    // Console.WriteLine("SPACE FOR 1");
                     newChromosomesList.Add(chromosomeChildren[0]);
                 }
                 else

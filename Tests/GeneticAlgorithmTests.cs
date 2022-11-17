@@ -60,7 +60,21 @@ namespace Tests
             var gen10Fitness = algo.CurrentGeneration.AverageFitness;
             Console.WriteLine(algo.GenerationCount + ": " + gen10Fitness);
         }
+
+        [TestMethod]
+        public void TestGenerateGenerationEliteRate(){
+            GA.GeneticAlgorithm algo = new GA.GeneticAlgorithm(50, 10, 7, 5, 100, 1, null, 100); //eliteRate = 100
+            Random rand = new Random();
+            int num = rand.Next(algo.PopulationSize);
+            var gen1 = algo.CurrentGeneration;
+            // Array.ForEach(gen1[20].Genes, Console.Write); Console.WriteLine();
+            for (int i = 0; i < 10; i++)
+            {
+                algo.GenerateGeneration();
+            }
+            var gen11 = algo.CurrentGeneration;
+            // Array.ForEach(gen11[20].Genes, Console.Write); Console.WriteLine();
+            CollectionAssert.AreEqual(gen1[num].Genes, gen11[num].Genes);
+        }
     }
 }
-
-//fitness, eliterate
