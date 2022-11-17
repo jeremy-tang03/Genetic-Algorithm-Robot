@@ -5,6 +5,8 @@ namespace GeneticAlgorithm
 {
     public class Chromosome : IChromosome
     {
+        private long _length;
+        private double _fitness;
         public int this[int index] {
             get
             {
@@ -19,21 +21,28 @@ namespace GeneticAlgorithm
         public double Fitness { 
             get 
             {
-                return Fitness;
+                return _fitness;
             }
             set 
             {
-                Fitness = value;
+                _fitness = value;
                 FitnessIsInitialized = true;
             }
         }
         public bool FitnessIsInitialized { get; private set; } = false;
         public int[] Genes { get; }
 
-        public long Length { get; }
+        public long Length { 
+            get{
+                return _length;
+            }
+        
+        }
 
         public Chromosome(int numOfGenes, long lengthOfGene, int? seed){
-            Length = lengthOfGene;
+            // Length = lengthOfGene;
+            _length = lengthOfGene;
+
             Genes = new int[numOfGenes];
 
             if (seed is null)
@@ -55,13 +64,15 @@ namespace GeneticAlgorithm
         }
 
         public Chromosome(int[] genes, long lengthOfGene){
-            Length = lengthOfGene;
+            // Length = lengthOfGene;
+            _length = lengthOfGene;
             Genes = genes;
         }
 
         public Chromosome(IChromosome chromosome) {
             Fitness = chromosome.Fitness;
-            Length = chromosome.Length;
+            // Length = chromosome.Length;
+            _length = chromosome.Length;
             Genes = new int[chromosome.Genes.Length];
 
             int i = 0;

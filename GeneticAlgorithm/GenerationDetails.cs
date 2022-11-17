@@ -14,19 +14,19 @@ namespace GeneticAlgorithm{
             this.seed = seed;
         }
 
-        // public GenerationDetails(GenerationDetails gd){
-        //     this.iGenAlgorithm = gd.iGenAlgorithm;
-        //     this.fitnessHandle = gd.fitnessHandle;
-        //     this.seed = gd.seed;
-        // }
-
         public GenerationDetails(IChromosome[] chromosomes, GeneticAlgorithm genAlgorithm){
             this.chromosomes = chromosomes;
             this.iGenAlgorithm = genAlgorithm;
             this.fitnessHandle = genAlgorithm.FitnessCalculation;
             this.seed = genAlgorithm.Seed;
         }
+        
 
+        public IChromosome[] Chromomsomes{
+            get{
+                return this.chromosomes;
+            }
+        }
 
         public double AverageFitness{
             get{
@@ -85,16 +85,17 @@ namespace GeneticAlgorithm{
     
             // return sorted[num];
             return chromosomes[num];
-
         }
+
 
         public void EvaluateFitnessOfPopulation(){
             
             // Fire num of trials for average avlue for a chromosome
 
             //Compute the fitness
-            double averageFitness = 0;
             foreach(Chromosome chrom in chromosomes){
+                double averageFitness = 0;
+
                 chrom.Fitness = fitnessHandle(chrom, this);
                 
                 if(iGenAlgorithm.NumberOfTrials > 1){
@@ -103,38 +104,38 @@ namespace GeneticAlgorithm{
                         averageFitness = averageFitness + fitnessHandle(chrom, this);
                     }
 
-                    chrom.Fitness = averageFitness/iGenAlgorithm.NumberOfTrials;
+                    chrom.Fitness = (averageFitness/iGenAlgorithm.NumberOfTrials);
+                    // chrom.Fitness = iGenAlgorithm.NumberOfTrials;
+
                 }
             }
-
 
             //Sorting the values from descending order
             chromosomes = sortArray();
             
         }
 
+        //Helper Method to sort the array
         private IChromosome[] sortArray(){
-            //Sorts all the chromosomes based on best fitness
+            IChromosome[] sorted = chromosomes;
 
-            IChromosome[] sorted = new IChromosome[200];
-            int bestFitness = 0;
-            for(int i =0; i<chromosomes.Length; i++){
-
+            int bestFitness;
+            for(int i =0; i<sorted.Length; i++){
                 bestFitness = i;
 
-                for(int j = i; j<chromosomes.Length;j++){
-
-                    if(chromosomes[i].Fitness < chromosomes[j].Fitness){
-
-                        bestFitness = j;
+                for(int j = i; j<sorted.Length; j++){
+                    if(sorted[i].Fitness < sorted[j].Fitness){
+                        
+                        IChromosome temp = sorted[i];
+                        sorted[i] = sorted[j];
+                        sorted[j] = temp;
                     }
-                }
-                sorted[i] = chromosomes[bestFitness]; 
-            }
 
+                }
+            }
             return sorted;
-        }
         
+        }
     }
 
 }
