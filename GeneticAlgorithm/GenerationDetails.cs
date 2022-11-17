@@ -105,7 +105,6 @@ namespace GeneticAlgorithm{
                     }
 
                     chrom.Fitness = (averageFitness/iGenAlgorithm.NumberOfTrials);
-                    // chrom.Fitness = iGenAlgorithm.NumberOfTrials;
 
                 }
             }
