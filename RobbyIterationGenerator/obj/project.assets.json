@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyIterationGenerator\\RobbyIterationGenerator.csproj",
+      "projectUniqueName": "C:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyIterationGenerator\\RobbyIterationGenerator.csproj",
       "projectName": "RobbyIterationGenerator",
-      "projectPath": "c:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyIterationGenerator\\RobbyIterationGenerator.csproj",
+      "projectPath": "C:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyIterationGenerator\\RobbyIterationGenerator.csproj",
       "packagesPath": "C:\\Users\\rapha\\.nuget\\packages\\",
-      "outputPath": "c:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyIterationGenerator\\obj\\",
+      "outputPath": "C:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyIterationGenerator\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\rapha\\AppData\\Roaming\\NuGet\\NuGet.Config",
