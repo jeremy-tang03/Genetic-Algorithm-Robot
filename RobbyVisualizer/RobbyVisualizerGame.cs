@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Forms;
 using Microsoft.Xna.Framework;
@@ -24,10 +25,17 @@ namespace RobbyVisualizer
 
         private ContentsOfGrid[,] testGrid;
 
-        private string _generationText = "Generation: 1";
+        private Vector2 previousPosition;
+        
+        private Vector2 currentPosition;
 
+        private string _generationText = "Generation: 1";
+    
         private int currentMove;
+
         private string _moveText = "Move: 0/200";
+
+        private string fileName;
 
         private string _pointsText = "Points: 0/500";
 
@@ -58,8 +66,6 @@ namespace RobbyVisualizer
 
             openFile();
 
-            OpenFileDialog openFileDialog1 = new OpenFileDialog();  
-
             base.Initialize();
         }
 
@@ -82,20 +88,20 @@ namespace RobbyVisualizer
 
         protected override void Draw(GameTime gameTime)
         {
-            _spriteBatch.Begin();
-            drawBoard();
-
             if (currentMove == 0) {
                 Random rand = new Random();
                 int x = rand.Next(_robby.GridSize);
                 int y = rand.Next(_robby.GridSize);   
-                Vector2 position = new Vector2((x*70)+3, (y*70)+3);
-                drawBlackTile(x, y);
-                drawRobby(position);
+                currentPosition = new Vector2((x*70)+3, (y*70)+3);
+                //drawBlackTile(x, y);
                 currentMove+=1;
             }
-            
 
+            _spriteBatch.Begin();
+            
+            drawBoard();
+            drawRobby(currentPosition);
+            
             Vector2 generationTextPosition = new Vector2(30, 720);
             _spriteBatch.DrawString(_font, _generationText, generationTextPosition, Color.White);
             Vector2 moveTextPosition = new Vector2(30, 780);
@@ -103,10 +109,8 @@ namespace RobbyVisualizer
             Vector2 pointsTextPosition = new Vector2(30, 840);
             _spriteBatch.DrawString(_font, _pointsText, pointsTextPosition, Color.White);  
             
-
             //reset a tile
             //drawBlackTile(1, 1, 70);
-
             _spriteBatch.End();
 
             base.Draw(gameTime);   
@@ -172,8 +176,16 @@ namespace RobbyVisualizer
 
             if(openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                string selectedFileName = openFileDialog1.FileName;
+                fileName = openFileDialog1.FileName;
             } 
+        }
+
+        protected void readFromFile(){
+            string[] lines = File.ReadAllLines(fileName); 
+            foreach (string line in lines)
+            {
+                string[] info = line.Split(',');
+            }
         }
     }
 }
