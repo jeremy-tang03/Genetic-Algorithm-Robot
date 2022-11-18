@@ -251,7 +251,6 @@ namespace RobbyVisualizer
                 currentMove+=1;
             }
             currentMove++;
-
             if (currentGeneration == 5 && currentMove == maxMoves){
                 int timeToWait = 100;
 
