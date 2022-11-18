@@ -29,7 +29,8 @@ namespace GeneticAlgorithm
 
         public GeneticAlgorithm(int populationSize, int numberOfGenes, int lengthOfGene, double mutationRate, double eliteRate, int numberOfTrials, FitnessEventHandler fitnessCalculation, int? seed = null)
         {
-            if (populationSize <= 0 || numberOfGenes <= 0 || lengthOfGene <= 0 || numberOfTrials < 0)
+            if (populationSize <= 0 || numberOfGenes <= 0 || lengthOfGene <= 0 || numberOfTrials < 1 || mutationRate < 0 ||
+            mutationRate > 1 || eliteRate < 0 || eliteRate > 100 || populationSize <= 0)
             {
                 throw new ArgumentException();
             }
@@ -108,7 +109,7 @@ namespace GeneticAlgorithm
                 }
                 else
                 {
-                    Console.WriteLine("----------------children chromosomes----------------");
+                    // Console.WriteLine("----------------children chromosomes----------------");
                 //     Array.ForEach(chromosomeChildren[0].Genes, Console.Write); Console.WriteLine();
                     newChromosomesList.Add(chromosomeChildren[0]);
                     // Array.ForEach(chromosomeChildren[1].Genes, Console.Write); Console.WriteLine();

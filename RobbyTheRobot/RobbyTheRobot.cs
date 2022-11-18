@@ -83,7 +83,7 @@ namespace RobbyTheRobot
                     {
                         genes += gen[0].Genes[j];
                     }
-                    result += gen.MaxFitness + ", " + gen[0].Genes.Length + ", " + genes + "\r\n";
+                    result += gen.MaxFitness + "," + gen[0].Genes.Length + "," + genes + "\r\n";
                 }
                 if (count == 5)
                     break;
