@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyIterationGenerator\\RobbyIterationGenerator.csproj": {}
+    "c:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyIterationGenerator\\RobbyIterationGenerator.csproj": {}
   },
   "projects": {
-    "C:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\GeneticAlgorithm\\GeneticAlgorithm.csproj": {
+    "c:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\GeneticAlgorithm\\GeneticAlgorithm.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\GeneticAlgorithm\\GeneticAlgorithm.csproj",
+        "projectUniqueName": "c:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\GeneticAlgorithm\\GeneticAlgorithm.csproj",
         "projectName": "GeneticAlgorithm",
-        "projectPath": "C:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\GeneticAlgorithm\\GeneticAlgorithm.csproj",
+        "projectPath": "c:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\GeneticAlgorithm\\GeneticAlgorithm.csproj",
         "packagesPath": "C:\\Users\\rapha\\.nuget\\packages\\",
-        "outputPath": "C:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\GeneticAlgorithm\\obj\\",
+        "outputPath": "c:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\GeneticAlgorithm\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\rapha\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -59,14 +59,14 @@
         }
       }
     },
-    "C:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyIterationGenerator\\RobbyIterationGenerator.csproj": {
+    "c:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyIterationGenerator\\RobbyIterationGenerator.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyIterationGenerator\\RobbyIterationGenerator.csproj",
+        "projectUniqueName": "c:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyIterationGenerator\\RobbyIterationGenerator.csproj",
         "projectName": "RobbyIterationGenerator",
-        "projectPath": "C:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyIterationGenerator\\RobbyIterationGenerator.csproj",
+        "projectPath": "c:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyIterationGenerator\\RobbyIterationGenerator.csproj",
         "packagesPath": "C:\\Users\\rapha\\.nuget\\packages\\",
-        "outputPath": "C:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyIterationGenerator\\obj\\",
+        "outputPath": "c:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyIterationGenerator\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\rapha\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -83,8 +83,8 @@
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyTheRobot\\RobbyTheRobot.csproj": {
-                "projectPath": "C:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyTheRobot\\RobbyTheRobot.csproj"
+              "c:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyTheRobot\\RobbyTheRobot.csproj": {
+                "projectPath": "c:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyTheRobot\\RobbyTheRobot.csproj"
               }
             }
           }
@@ -118,14 +118,14 @@
         }
       }
     },
-    "C:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyTheRobot\\RobbyTheRobot.csproj": {
+    "c:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyTheRobot\\RobbyTheRobot.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyTheRobot\\RobbyTheRobot.csproj",
+        "projectUniqueName": "c:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyTheRobot\\RobbyTheRobot.csproj",
         "projectName": "RobbyTheRobot",
-        "projectPath": "C:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyTheRobot\\RobbyTheRobot.csproj",
+        "projectPath": "c:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyTheRobot\\RobbyTheRobot.csproj",
         "packagesPath": "C:\\Users\\rapha\\.nuget\\packages\\",
-        "outputPath": "C:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyTheRobot\\obj\\",
+        "outputPath": "c:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyTheRobot\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\rapha\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -142,8 +142,8 @@
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\GeneticAlgorithm\\GeneticAlgorithm.csproj": {
-                "projectPath": "C:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\GeneticAlgorithm\\GeneticAlgorithm.csproj"
+              "c:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\GeneticAlgorithm\\GeneticAlgorithm.csproj": {
+                "projectPath": "c:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\GeneticAlgorithm\\GeneticAlgorithm.csproj"
               }
             }
           }

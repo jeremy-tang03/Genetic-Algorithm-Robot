@@ -79,7 +79,7 @@ namespace RobbyVisualizer
             testGrid = _robby.GenerateRandomTestGrid();
             _graphics.ApplyChanges();
 
-            currentMove = 1;
+            currentMove = 0;
             currentGeneration = 0;
             timeToWait = 50;
             _displayGeneration = new int[]{1, 20, 100, 200, 500, 1000};
@@ -88,6 +88,17 @@ namespace RobbyVisualizer
             openFile();
 
             readFromFile();
+
+            if (currentMove == 0) {
+                Random rand = new Random();
+                int x = rand.Next(_robby.GridSize);
+                int y = rand.Next(_robby.GridSize);   
+                currentPosition = new Vector2((x*70)+3, (y*70)+3);
+                currentCoordinates[0] = x;
+                currentCoordinates[1] = y;
+                currentMove ++;
+
+            }
 
             base.Initialize();
         }
@@ -105,7 +116,7 @@ namespace RobbyVisualizer
                 Exit();
 
             // TODO: Add your update logic here
-            
+
             if (timeToWait == 0){
                 moveRobby();
                 timeToWait = 5;
@@ -120,17 +131,6 @@ namespace RobbyVisualizer
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-
-            if (currentMove == 0) {
-                Random rand = new Random();
-                int x = rand.Next(_robby.GridSize);
-                int y = rand.Next(_robby.GridSize);   
-                currentPosition = new Vector2((x*70)+3, (y*70)+3);
-                currentCoordinates[0] = x;
-                currentCoordinates[1] = y;
-                //drawBlackTile(x, y);
-                currentMove+=1;
-            }
 
             _spriteBatch.Begin();
             
@@ -241,16 +241,36 @@ namespace RobbyVisualizer
         }
     
         protected void moveRobby(){
+            if (currentMove == 0) {
+                Random rand = new Random();
+                int x = rand.Next(_robby.GridSize);
+                int y = rand.Next(_robby.GridSize);   
+                currentPosition = new Vector2((x*70)+3, (y*70)+3);
+                currentCoordinates[0] = x;
+                currentCoordinates[1] = y;
+                currentMove+=1;
+            }
             currentMove++;
+            if (currentGeneration == 5 && currentMove == maxMoves){
+                int timeToWait = 100;
+
+                while (true)
+                {
+                if (timeToWait == 0){
+                    Exit();
+                } else{
+                    timeToWait -= 1;
+                }   
+                }
+
+            }
             if (currentMove == maxMoves)
             {
                 currentGeneration++;
-                currentMove = 1;
+                currentMove = 0;
                 score = 0;
             }
             else{
-                int move = setOfMoves[currentGeneration,currentMove];
-
                 int[] moves = new int[maxMoves];
                 for (int i = 0; i < maxMoves; i++)
                 {
@@ -258,12 +278,10 @@ namespace RobbyVisualizer
                 }
 
                 score += RobbyHelper.ScoreForAllele(moves, testGrid, new Random(), ref currentCoordinates[0], ref currentCoordinates[1]);
-                move++;
 
                 _generationText = $"Generation: {_displayGeneration[currentGeneration]}/1000";
                 _moveText = $"Move: {currentMove}/{maxMoves}";
                 _pointsText = $"Points: {score}/500";
-                
             }
         }
     }

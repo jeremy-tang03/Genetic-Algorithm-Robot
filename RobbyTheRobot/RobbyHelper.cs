@@ -1,9 +1,10 @@
 using System;
+using System.Diagnostics;
 using GeneticAlgorithm;
 
 namespace RobbyTheRobot
 {
-    class RobbyHelper
+    public class RobbyHelper
     {
         
         /// <summary>
