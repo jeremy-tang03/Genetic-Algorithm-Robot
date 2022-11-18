@@ -18,10 +18,13 @@ namespace RobbyTheRobot
         public static double ScoreForAllele(int[] moves, ContentsOfGrid[,] grid, Random rng, ref int x, ref int y)
         {
             DirectionOfGridContents direction = RobbyHelper.LookAround(x, y, grid);
+            // Console.WriteLine("dir: " + direction.Current);
             //find the gene
             int gene = RobbyHelper.FindGeneIndex(direction);
+            // Console.WriteLine("gene: "+gene);
             //find the move
             PossibleMoves move = (PossibleMoves)moves[gene];
+            Console.WriteLine("move: " + move);
             bool done;
             do
             {
