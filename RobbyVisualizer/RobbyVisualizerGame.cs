@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using System.Windows;
 using System.Windows.Forms;
 using Microsoft.Xna.Framework;
@@ -29,15 +31,29 @@ namespace RobbyVisualizer
         
         private Vector2 currentPosition;
 
+        private int[] currentCoordinates = new int[2];
+
         private string _generationText = "Generation: 1";
-    
-        private int currentMove;
 
         private string _moveText = "Move: 0/200";
 
+        private int currentMove;
+
         private string fileName;
 
+        private double score;
+
         private string _pointsText = "Points: 0/500";
+
+        private int[,] setOfMoves;
+
+        private int numberOfGenerations;
+
+        private int timeToWait;
+
+        private int maxMoves;
+        
+        private int currentGeneration;
 
         public RobbyVisualizerGame()
         {
@@ -62,9 +78,14 @@ namespace RobbyVisualizer
             testGrid = _robby.GenerateRandomTestGrid();
             _graphics.ApplyChanges();
 
-            currentMove = 0;
+            currentMove = 1;
+            currentGeneration = 1;
+            timeToWait = 50;
+
 
             openFile();
+
+            readFromFile();
 
             base.Initialize();
         }
@@ -82,17 +103,30 @@ namespace RobbyVisualizer
                 Exit();
 
             // TODO: Add your update logic here
+            
+            if (timeToWait == 0){
+                //_moveText = $"Move: {currentMove}/200";
+                moveRobby();
+                timeToWait = 5;
+            }
+            else {
+                timeToWait = timeToWait - 1;
+            }
 
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
+            GraphicsDevice.Clear(Color.Black);
+
             if (currentMove == 0) {
                 Random rand = new Random();
                 int x = rand.Next(_robby.GridSize);
                 int y = rand.Next(_robby.GridSize);   
                 currentPosition = new Vector2((x*70)+3, (y*70)+3);
+                currentCoordinates[0] = x;
+                currentCoordinates[1] = y;
                 //drawBlackTile(x, y);
                 currentMove+=1;
             }
@@ -110,7 +144,7 @@ namespace RobbyVisualizer
             _spriteBatch.DrawString(_font, _pointsText, pointsTextPosition, Color.White);  
             
             //reset a tile
-            //drawBlackTile(1, 1, 70);
+            drawBlackTile(1, 1);
             _spriteBatch.End();
 
             base.Draw(gameTime);   
@@ -182,9 +216,54 @@ namespace RobbyVisualizer
 
         protected void readFromFile(){
             string[] lines = File.ReadAllLines(fileName); 
+            int i = 0;
+            numberOfGenerations = lines.Length;
+
+            int numOfMoves = Int16.Parse(lines[0].Split(',')[1]);
+
+            int[,] arrayofmoves = new int[lines.Length,numOfMoves]; 
             foreach (string line in lines)
             {
+                List<int> listOfMoves = new List<int>();
                 string[] info = line.Split(',');
+                char[] allMoves = info[2].ToCharArray();
+                maxMoves = allMoves.Length;
+                int j = 0;
+                foreach (char move in allMoves)
+                {
+                    arrayofmoves[i, j] = Int16.Parse(move.ToString());
+                    j++;
+                }
+                i++;
+            }
+            setOfMoves = arrayofmoves;
+        }
+    
+        protected void moveRobby(){
+            currentMove++;
+            if (currentMove == maxMoves)
+            {
+                currentGeneration++;
+                currentMove = 1;
+                score = 0;
+            }
+            else{
+                int move = setOfMoves[currentGeneration,currentMove];
+
+                int[] moves = new int[maxMoves];
+                for (int i = 0; i < maxMoves; i++)
+                {
+                    moves[i] = setOfMoves[currentGeneration, i];
+                }
+
+                double currentScore = RobbyHelper.ScoreForAllele(moves, testGrid, new Random(), ref currentCoordinates[0], ref currentCoordinates[1]);
+                score += currentScore;
+                move++;
+
+                _generationText = $"Generation: {currentGeneration}/1000";
+                _moveText = $"Move: {currentMove}/{maxMoves}";
+                _pointsText = $"Points: {score}/500";
+                
             }
         }
     }
