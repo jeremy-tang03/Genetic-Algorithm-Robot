@@ -35,7 +35,7 @@ namespace Tests
 
         [TestMethod]
         public void test(){
-            Robby.createRobby(1, 1, 1, 1, 1, 50, 250, 7, 1).GeneratePossibleSolutions("..\\test.txt");
+            Robby.createRobby(1, 1, 1, 0.5, 0, 50, 250, 7, 1).GeneratePossibleSolutions("..\\test.txt");
             // Assert.AreEqual(1,1);
         }
     }
