@@ -30,7 +30,8 @@ namespace GeneticAlgorithm
             }
         }
         public bool FitnessIsInitialized { get; private set; } = false;
-        public int[] Genes { get; }
+        private int[] _genes;
+        public int[] Genes => _genes;
 
         public long Length { 
             get{
@@ -43,7 +44,7 @@ namespace GeneticAlgorithm
             // Length = lengthOfGene;
             _length = lengthOfGene;
 
-            Genes = new int[numOfGenes];
+            _genes = new int[numOfGenes];
 
             if (seed is null)
             {
@@ -66,14 +67,14 @@ namespace GeneticAlgorithm
         public Chromosome(int[] genes, long lengthOfGene){
             // Length = lengthOfGene;
             _length = lengthOfGene;
-            Genes = genes;
+            _genes = genes;
         }
 
         public Chromosome(IChromosome chromosome) {
             Fitness = chromosome.Fitness;
             // Length = chromosome.Length;
             _length = chromosome.Length;
-            Genes = new int[chromosome.Genes.Length];
+            _genes = new int[chromosome.Genes.Length];
 
             int i = 0;
             foreach (int gene in chromosome.Genes)
