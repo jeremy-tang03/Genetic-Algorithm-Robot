@@ -25,7 +25,7 @@ namespace RobbyTheRobot
             // Console.WriteLine("gene: "+gene);
             //find the move
             PossibleMoves move = (PossibleMoves)moves[gene];
-            Console.WriteLine("move: " + move);
+            // Console.WriteLine("move: " + move);
             bool done;
             do
             {

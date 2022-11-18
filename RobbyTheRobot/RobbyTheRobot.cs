@@ -18,9 +18,9 @@ namespace RobbyTheRobot
         public double EliteRate { get; }
         private GeneticAlgorithm.GeneticAlgorithm GA { get; } // TODO: add backing fields
 
-        public RobbyTheRobot(int numberOfActions, int numberOfTestGrids, int numberOfGenerations, double mutationRate, double eliteRate, int populationSize, int numberOfGenes, int lengthOfGene, int numberOfTrials, int gridSize, int? seed)
+        public RobbyTheRobot(int numberOfTestGrids, int numberOfGenerations, double mutationRate, double eliteRate, int populationSize, int numberOfGenes, int lengthOfGene, int numberOfTrials, int gridSize, int? seed, int numberOfActions = 200)
         {
-            if (numberOfActions <= 0 || numberOfTestGrids <= 0 || numberOfGenerations <= 0 || mutationRate < 0 || mutationRate > 100 ||
+            if (numberOfActions <= 0 || numberOfTestGrids <= 0 || numberOfGenerations <= 0 || mutationRate < 0 || mutationRate > 1 ||
                 eliteRate < 0 || eliteRate > 100 || populationSize <= 0 || numberOfTrials <= 0 || gridSize <= 0)
             {
                 throw new ArgumentException();
@@ -52,10 +52,10 @@ namespace RobbyTheRobot
             // Array.ForEach(moves, Console.Write);
             ContentsOfGrid[,] grid = this.GenerateRandomTestGrid();
             double score = 0;
-            for (int i = 0; i < 200; i++)
+            for (int i = 0; i < this.NumberOfActions; i++)
             {
                 score += RobbyHelper.ScoreForAllele(moves, grid, rand, ref x, ref y);
-                Console.WriteLine("position: " + x + "," + y);
+                // Console.WriteLine("position: " + x + "," + y);
             }
             Console.WriteLine("score: " + score);
             Console.WriteLine("AverageFitness: " + generation.AverageFitness);
@@ -72,7 +72,6 @@ namespace RobbyTheRobot
                 var count = GA.GenerationCount;
                 if (count == 1 || count == 20 || count == 100 || count == 200 || count == 500 || count == 1000)
                 {
-                    // Console.WriteLine(i + " vs " + );
                     GenerationDetails gen = GA.CurrentGeneration as GenerationDetails;
                     gen.EvaluateFitnessOfPopulation();
                     for (int i = 0; i < gen.NumberOfChromosomes; i++)
@@ -86,7 +85,7 @@ namespace RobbyTheRobot
                     }
                     result += gen.MaxFitness + "," + gen[0].Genes.Length + "," + genes + "\r\n";
                 }
-                if (count == 1000)
+                if (count == 5)
                     break;
                 else
                     GA.GenerateGeneration();
