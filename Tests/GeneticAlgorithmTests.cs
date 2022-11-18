@@ -29,7 +29,7 @@ namespace Tests
         [TestMethod]
         public void TestConstructorInvalidParams()
         {
-
+            //TODO
         }
 
         [TestMethod]
@@ -50,13 +50,25 @@ namespace Tests
         [TestMethod]
         public void TestGenerateGenerationFitness()
         {
-            GA.GeneticAlgorithm algo = new GA.GeneticAlgorithm(50, 10, 7, 5, 0, 2, null, 100);
+            GA.GeneticAlgorithm algo = new GA.GeneticAlgorithm(50, 10, 7, 5, 0, 2, delegateReturn, 100);
+            (algo.CurrentGeneration as GA.GenerationDetails).EvaluateFitnessOfPopulation();
+            // for (int i = 0; i < algo.CurrentGeneration.NumberOfChromosomes; i++)
+            // {
+            //     Console.Write(algo.CurrentGeneration[i].Fitness);
+            //     Console.WriteLine();
+            // }
             var gen1Fitness = algo.CurrentGeneration.AverageFitness;
             Console.WriteLine(algo.GenerationCount + ": " + gen1Fitness);
             for (int i = 0; i < 10; i++)
             {
                 algo.GenerateGeneration();
             }
+            (algo.CurrentGeneration as GA.GenerationDetails).EvaluateFitnessOfPopulation();
+            // for (int i = 0; i < algo.CurrentGeneration.NumberOfChromosomes; i++)
+            // {
+            //     Console.Write(algo.CurrentGeneration[i].Fitness);
+            //     Console.WriteLine();
+            // }
             var gen10Fitness = algo.CurrentGeneration.AverageFitness;
             Console.WriteLine(algo.GenerationCount + ": " + gen10Fitness);
         }
@@ -75,6 +87,12 @@ namespace Tests
             var gen11 = algo.CurrentGeneration;
             // Array.ForEach(gen11[20].Genes, Console.Write); Console.WriteLine();
             CollectionAssert.AreEqual(gen1[num].Genes, gen11[num].Genes);
+        }
+
+        //Returns method for the delegate for testing purposes
+        private double delegateReturn(GA.IChromosome chrom, GA.IGeneration gen){
+            Random r = new Random();
+            return r.Next(10);
         }
     }
 }

@@ -16,11 +16,12 @@ namespace RobbyTheRobot
         public double MutationRate { get; }
 
         public double EliteRate { get; }
-        private GeneticAlgorithm.GeneticAlgorithm GA { get; }
+        private GeneticAlgorithm.GeneticAlgorithm GA { get; } // TODO: add backing fields
 
-        public RobbyTheRobot(int numberOfActions, int numberOfTestGrids, int numberOfGenerations, double mutationRate, double eliteRate, int populationSize, int numberOfTrials, int gridSize = 10, int? seed = null)
+        public RobbyTheRobot(int numberOfActions, int numberOfTestGrids, int numberOfGenerations, double mutationRate, double eliteRate, int populationSize, int numberOfGenes, int lengthOfGene, int numberOfTrials, int gridSize, int? seed)
         {
-            if (numberOfActions <= 0 || numberOfTestGrids <= 0 || numberOfGenerations <= 0 || mutationRate < 0 || eliteRate < 0 || populationSize <= 0 || numberOfTrials <= 0)
+            if (numberOfActions <= 0 || numberOfTestGrids <= 0 || numberOfGenerations <= 0 || mutationRate < 0 || mutationRate > 100 ||
+                eliteRate < 0 || eliteRate > 100 || populationSize <= 0 || numberOfTrials <= 0 || gridSize <= 0)
             {
                 throw new ArgumentException();
             }
@@ -33,28 +34,69 @@ namespace RobbyTheRobot
                 this.EliteRate = eliteRate;
                 this.GridSize = gridSize;
 
-                GA = new GeneticAlgorithm.GeneticAlgorithm(3, 3, 3, 1, 5, 1, null, seed); // temporary
+                GA = new GeneticAlgorithm.GeneticAlgorithm(populationSize, numberOfGenes, lengthOfGene, mutationRate, eliteRate, numberOfTrials, ComputeFitness, seed);
             }
+        }
+
+        public double test(IChromosome chromosome, IGeneration generation){ //TODO: to remove
+            Random r = new Random();
+            return r.Next(10);
+        }
+
+        public double ComputeFitness(IChromosome chromosome, IGeneration generation) //TODO: to fix
+        {
+            Random rand = new Random();
+            int x = rand.Next(this.GridSize);
+            int y = rand.Next(this.GridSize);
+            int[] moves = chromosome.Genes;
+            // Array.ForEach(moves, Console.Write);
+            ContentsOfGrid[,] grid = this.GenerateRandomTestGrid();
+            double score = 0;
+            for (int i = 0; i < 200; i++)
+            {
+                score += RobbyHelper.ScoreForAllele(moves, grid, rand, ref x, ref y);
+                Console.WriteLine("position: " + x + "," + y);
+            }
+            Console.WriteLine("score: " + score);
+            Console.WriteLine("AverageFitness: " + generation.AverageFitness);
+            Console.WriteLine("----------------------------------------------------");
+
+            return score;
         }
 
         public void GeneratePossibleSolutions(string folderPath) //TODO: loop next gens  
         {
             string result = "";
-            for (int i = 1; i <= 1000; i++)
+            while (true)
             {
-                if (i == 1 || i == 20 || i == 100 || i == 200 || i == 500 || 1 == 1000)
+                var count = GA.GenerationCount;
+                if (count == 1 || count == 20 || count == 100 || count == 200 || count == 500 || count == 1000)
                 {
+                    // Console.WriteLine(i + " vs " + );
                     GenerationDetails gen = GA.CurrentGeneration as GenerationDetails;
                     gen.EvaluateFitnessOfPopulation();
-                    result += gen.MaxFitness + ", " + gen[0].Genes.Length + ", " + gen[0].Genes + "\r\n";
+                    for (int i = 0; i < gen.NumberOfChromosomes; i++)
+                    {
+                        Console.WriteLine("chromosome "+i +" fitness: "+gen[i].Fitness);
+                    }
+                    string genes = "";
+                    for (int j = 0; j < gen[0].Genes.Length; j++)
+                    {
+                        genes += gen[0].Genes[j];
+                    }
+                    result += gen.MaxFitness + ", " + gen[0].Genes.Length + ", " + genes + "\r\n";
                 }
-                GA.GenerateGeneration(); // or maybe run this before the if?
+                if (count == 1000)
+                    break;
+                else
+                    GA.GenerateGeneration();
+                    Console.WriteLine(GA.GenerationCount);
             }
             // Write string to file
-            System.IO.File.WriteAllText("C:\\Users\\Jeremy\\Desktop\\test.txt", result);
+            System.IO.File.WriteAllText(folderPath, result);
             //TODO: to remove, code for testing purposes
             // Open the file to read from. 
-            string readText = System.IO.File.ReadAllText("C:\\Users\\Jeremy\\Desktop\\test.txt");
+            string readText = System.IO.File.ReadAllText(folderPath);
             Console.WriteLine(readText);
         }
 

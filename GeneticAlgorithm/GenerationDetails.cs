@@ -100,22 +100,27 @@ namespace GeneticAlgorithm
 
             // IChromosome[] sorted = sortArray();
 
-            chromosomes = sortArray();
-            System.Random random = new System.Random();
-            int num = 0;
-            if (chromosomes.Length >= 20)
+            if (chromosomes.Length > 1)
             {
-                int quarterOfPop = (int)Math.Ceiling((decimal)chromosomes.Length / 4);
-                num = random.Next(quarterOfPop);
+                chromosomes = sortArray();
+                System.Random random = new System.Random();
+                int num = 0;
+                if (chromosomes.Length >= 20)
+                {
+                    int quarterOfPop = (int)Math.Ceiling((decimal)chromosomes.Length / 4);
+                    num = random.Next(quarterOfPop);
+                }
+                else
+                {
+                    num = random.Next(chromosomes.Length);
+                }
+                // Console.WriteLine(num);
+
+                // return sorted[num];
+                return chromosomes[num];
             }
             else
-            {
-                num = random.Next(chromosomes.Length);
-            }
-            // Console.WriteLine(num);
-
-            // return sorted[num];
-            return chromosomes[num];
+                return chromosomes[0];
         }
 
 
@@ -128,8 +133,11 @@ namespace GeneticAlgorithm
             foreach (Chromosome chrom in chromosomes)
             {
                 double averageFitness = 0;
+                double temp = fitnessHandle(chrom, this);
+                // Console.WriteLine("Temp: "+temp);
 
-                chrom.Fitness = fitnessHandle(chrom, this);
+                chrom.Fitness = temp;
+                // Console.WriteLine("Fitness in chrom: "+chrom.Fitness);
 
                 if (iGenAlgorithm.NumberOfTrials > 1)
                 {

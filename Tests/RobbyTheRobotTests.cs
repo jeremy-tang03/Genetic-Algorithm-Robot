@@ -9,7 +9,7 @@ namespace Tests
     {
         [TestMethod]
         public void GenerateRandomTestGridTest(){
-            ContentsOfGrid[,] grid = Robby.createRobby(1, 1, 1, 1, 1, 5, 1).GenerateRandomTestGrid();
+            ContentsOfGrid[,] grid = Robby.createRobby(1, 1, 1, 1, 1, 5, 10, 7, 1).GenerateRandomTestGrid();
 
             int canCount = 0;
             int emptyCount = 0;
@@ -35,7 +35,7 @@ namespace Tests
 
         [TestMethod]
         public void test(){
-            Robby.createRobby(1, 1, 1, 1, 1, 5, 1).GeneratePossibleSolutions(".\\test.txt");
+            Robby.createRobby(1, 1, 1, 1, 1, 50, 250, 7, 1).GeneratePossibleSolutions("..\\test.txt");
             // Assert.AreEqual(1,1);
         }
     }

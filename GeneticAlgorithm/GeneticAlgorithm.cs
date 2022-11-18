@@ -60,6 +60,7 @@ namespace GeneticAlgorithm
             }
             else
             {
+                // Console.WriteLine("gen: " + this._generationCount);
                 return GenerateNextGeneration();
             }
         }
