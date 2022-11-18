@@ -54,6 +54,7 @@ namespace RobbyVisualizer
         private int maxMoves;
         
         private int currentGeneration;
+        private int[] _displayGeneration;
 
         public RobbyVisualizerGame()
         {
@@ -81,6 +82,7 @@ namespace RobbyVisualizer
             currentMove = 1;
             currentGeneration = 1;
             timeToWait = 50;
+            _displayGeneration = new int[]{1, 20, 100, 200, 500, 1000};
 
 
             openFile();
@@ -260,7 +262,7 @@ namespace RobbyVisualizer
                 score += currentScore;
                 move++;
 
-                _generationText = $"Generation: {currentGeneration}/1000";
+                _generationText = $"Generation: {_displayGeneration[currentGeneration]}/1000";
                 _moveText = $"Move: {currentMove}/{maxMoves}";
                 _pointsText = $"Points: {score}/500";
                 
