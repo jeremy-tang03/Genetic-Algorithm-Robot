@@ -80,7 +80,7 @@ namespace RobbyVisualizer
             _graphics.ApplyChanges();
 
             currentMove = 1;
-            currentGeneration = 1;
+            currentGeneration = 0;
             timeToWait = 50;
             _displayGeneration = new int[]{1, 20, 100, 200, 500, 1000};
 
@@ -107,7 +107,6 @@ namespace RobbyVisualizer
             // TODO: Add your update logic here
             
             if (timeToWait == 0){
-                //_moveText = $"Move: {currentMove}/200";
                 moveRobby();
                 timeToWait = 5;
             }
@@ -258,8 +257,7 @@ namespace RobbyVisualizer
                     moves[i] = setOfMoves[currentGeneration, i];
                 }
 
-                double currentScore = RobbyHelper.ScoreForAllele(moves, testGrid, new Random(), ref currentCoordinates[0], ref currentCoordinates[1]);
-                score += currentScore;
+                score += RobbyHelper.ScoreForAllele(moves, testGrid, new Random(), ref currentCoordinates[0], ref currentCoordinates[1]);
                 move++;
 
                 _generationText = $"Generation: {_displayGeneration[currentGeneration]}/1000";
