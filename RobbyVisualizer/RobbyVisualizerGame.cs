@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Windows;
+using System.Windows.Forms;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -54,6 +56,10 @@ namespace RobbyVisualizer
 
             currentMove = 0;
 
+            openFile();
+
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();  
+
             base.Initialize();
         }
 
@@ -66,7 +72,7 @@ namespace RobbyVisualizer
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == Microsoft.Xna.Framework.Input.ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Escape))
                 Exit();
 
             // TODO: Add your update logic here
@@ -84,9 +90,11 @@ namespace RobbyVisualizer
                 int x = rand.Next(_robby.GridSize);
                 int y = rand.Next(_robby.GridSize);   
                 Vector2 position = new Vector2((x*70)+3, (y*70)+3);
+                drawBlackTile(x, y);
                 drawRobby(position);
-                currentMove++;
+                currentMove+=1;
             }
+            
 
             Vector2 generationTextPosition = new Vector2(30, 720);
             _spriteBatch.DrawString(_font, _generationText, generationTextPosition, Color.White);
@@ -96,13 +104,8 @@ namespace RobbyVisualizer
             _spriteBatch.DrawString(_font, _pointsText, pointsTextPosition, Color.White);  
             
 
-            //each tile is 70 x 70
-            //add 3 pixels to each side to make it look better
-            Vector2 robotPosition = new Vector2(73, 73);
-            _spriteBatch.Draw(_robotTexture, robotPosition, Color.White);
-
             //reset a tile
-            //drawBlackTile(70, 70, 70);
+            //drawBlackTile(1, 1, 70);
 
             _spriteBatch.End();
 
@@ -137,7 +140,8 @@ namespace RobbyVisualizer
             GridTileSprite.DrawTile(_spriteBatch, new Rectangle(x, y, height, height), Color.White, 2);
         }
 
-        protected void drawBlackTile(int x, int y, int height){
+        protected void drawBlackTile(int x, int y){
+            int height = 70;
             Texture2D blackBox = new Texture2D(this.GraphicsDevice, height, height);
             Color[] colorArray = new Color[height*height];
             for (int i = 0; i < colorArray.Length; i++)
@@ -145,10 +149,10 @@ namespace RobbyVisualizer
                 colorArray[i] = Color.Black;
             }
             blackBox.SetData(colorArray);
-            Vector2 coordinates = new Vector2(x, y);
+            Vector2 coordinates = new Vector2(x*height, y*height);
             _spriteBatch.Draw(blackBox, coordinates, Color.Black);
 
-            drawTile(x, y, height);
+            drawTile(x*height, y*height, height);
         }
         protected void drawCan(Vector2 position){
             _spriteBatch.Draw(_canTexture, position, Color.White);
@@ -156,6 +160,20 @@ namespace RobbyVisualizer
 
         protected void drawRobby(Vector2 position){
             _spriteBatch.Draw(_robotTexture, position, Color.White);
+        }
+
+        protected void openFile(){
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+
+            openFileDialog1.InitialDirectory = "../Iterations/" ;
+            openFileDialog1.Filter = "txt files (*.txt)|*.txt";
+            openFileDialog1.FilterIndex = 0;
+            openFileDialog1.RestoreDirectory = true ;
+
+            if(openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                string selectedFileName = openFileDialog1.FileName;
+            } 
         }
     }
 }
