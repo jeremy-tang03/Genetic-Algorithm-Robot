@@ -431,3 +431,12 @@ $RECYCLE.BIN/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+##
+.editorconfig
+.vscode/launch.json
+.vscode/settings.json
+.vscode/tasks.json
+RobbyIterationGenerator/obj/project.assets.json
+RobbyIterationGenerator/obj/project.nuget.cache
+
