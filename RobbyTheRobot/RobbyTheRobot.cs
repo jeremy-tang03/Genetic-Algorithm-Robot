@@ -77,7 +77,7 @@ namespace RobbyTheRobot
                         genes += gen[0].Genes[j];
                     }
                     result += gen.MaxFitness + "," + gen[0].Genes.Length + "," + genes + "\r\n";
-                    FileWrittenEvent?.Invoke("Generation " + count + " genes written");
+                    FileWrittenEvent?.Invoke("Generation " + count + ": genes are written.");
                 }
                 filePercentDone((int)count);
                 if (count == this.NumberOfGenerations)
