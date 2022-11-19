@@ -53,7 +53,7 @@ namespace RobbyIterationGenerator
                 numberOfGenes = Console.ReadLine();
             }
 
-            Console.WriteLine("Enter the length of gene (7)");
+            Console.WriteLine("Enter the length of gene (max: 7)");
             string lengthOfGene = Console.ReadLine();
             while (!lengthOfGene.All(char.IsDigit) || lengthOfGene == "" || Int16.Parse(lengthOfGene) < 0 || Int16.Parse(lengthOfGene) > 7){
                 Console.WriteLine("Invalid length of gene, re-enter a number");
@@ -87,7 +87,7 @@ namespace RobbyIterationGenerator
 
                 Console.WriteLine("Robby is being created!");
                 timer.Start();
-                Robby.createRobby(
+                var  r = Robby.createRobby(
                     200,
                     1,
                     Int16.Parse(numberOfGenerations),
@@ -99,13 +99,15 @@ namespace RobbyIterationGenerator
                     Int16.Parse(numberOfTrials),
                     10,
                     Int16.Parse(seed)
-                    ).GeneratePossibleSolutions(_filePath);
+                    );
+                r.FileWrittenEvent += FileWrittenHandler;
+                r.GeneratePossibleSolutions(_filePath);
                 timer.Stop();
             }
             else{
                 Console.WriteLine("Robby is being created!");
                 timer.Start();
-                Robby.createRobby(
+                var r = Robby.createRobby(
                     200,
                     1,
                     Int16.Parse(numberOfGenerations),
@@ -115,7 +117,9 @@ namespace RobbyIterationGenerator
                     Int16.Parse(numberOfGenes),
                     Int16.Parse(lengthOfGene),
                     Int16.Parse(numberOfTrials)
-                    ).GeneratePossibleSolutions(_filePath);
+                    );
+                r.FileWrittenEvent += FileWrittenHandler;
+                r.GeneratePossibleSolutions(_filePath);
                 timer.Stop();
             }
                 // Get the elapsed time as a TimeSpan value.
@@ -137,6 +141,10 @@ namespace RobbyIterationGenerator
             /*DateTime now = DateTime.Now;
             string fileName = now.Year+"."+now.Month+"."+now.Day+"-"+now.Hour+"."+now.Minute+"."+now.Second+".txt";*/
             return fileLocation+"geneticAlgorithm.txt";
+        }
+
+        public static void FileWrittenHandler(string message){
+            Console.WriteLine(message);
         }
     }
 }

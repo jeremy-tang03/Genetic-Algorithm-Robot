@@ -17,6 +17,7 @@ namespace RobbyTheRobot
 
         public double EliteRate { get; }
         private GeneticAlgorithm.GeneticAlgorithm GA { get; }
+        public event FileWritten FileWrittenEvent;
 
         public RobbyTheRobot(int numberOfTestGrids, int numberOfGenerations, double mutationRate, double eliteRate, int populationSize, int numberOfGenes, int lengthOfGene, int numberOfTrials, int gridSize, int? seed, int numberOfActions = 200)
         {
@@ -83,6 +84,9 @@ namespace RobbyTheRobot
             }
             // Write string to file
             System.IO.File.WriteAllText(folderPath, result);
+            string time = DateTime.Now.ToString("t");
+            string date = DateTime.Now.ToString("d");
+            FileWrittenEvent?.Invoke("File written at " + time + " on " + date + " in: " + folderPath);
         }
 
         public ContentsOfGrid[,] GenerateRandomTestGrid()
