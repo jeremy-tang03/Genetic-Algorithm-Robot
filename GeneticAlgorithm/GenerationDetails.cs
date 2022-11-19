@@ -27,7 +27,13 @@ namespace GeneticAlgorithm
             this.fitnessHandle = genAlgorithm.FitnessCalculation;
             this.seed = genAlgorithm.Seed;
         }
+        
 
+        public IChromosome[] Chromomsomes{
+            get{
+                return this.chromosomes;
+            }
+        }
 
         public IChromosome[] Chromomsomes
         {
