@@ -16,7 +16,7 @@ namespace RobbyTheRobot
         public double MutationRate { get; }
 
         public double EliteRate { get; }
-        private GeneticAlgorithm.GeneticAlgorithm GA { get; } // TODO: add backing fields
+        private GeneticAlgorithm.GeneticAlgorithm GA { get; }
 
         public RobbyTheRobot(int numberOfTestGrids, int numberOfGenerations, double mutationRate, double eliteRate, int populationSize, int numberOfGenes, int lengthOfGene, int numberOfTrials, int gridSize, int? seed, int numberOfActions = 200)
         {
@@ -27,9 +27,9 @@ namespace RobbyTheRobot
             }
             else
             {
+                this.NumberOfActions = numberOfActions;
                 this.NumberOfGenerations = numberOfGenerations;
                 this.NumberOfTestGrids = numberOfTestGrids;
-                this.NumberOfGenerations = numberOfGenerations;
                 this.MutationRate = mutationRate;
                 this.EliteRate = eliteRate;
                 this.GridSize = gridSize;
@@ -38,33 +38,23 @@ namespace RobbyTheRobot
             }
         }
 
-        public double test(IChromosome chromosome, IGeneration generation){ //TODO: to remove
-            Random r = new Random();
-            return r.Next(10);
-        }
-
-        public double ComputeFitness(IChromosome chromosome, IGeneration generation) //TODO: to fix
+        public double ComputeFitness(IChromosome chromosome, IGeneration generation)
         {
             Random rand = new Random();
             int x = rand.Next(this.GridSize);
             int y = rand.Next(this.GridSize);
             int[] moves = chromosome.Genes;
-            // Array.ForEach(moves, Console.Write);
             ContentsOfGrid[,] grid = this.GenerateRandomTestGrid();
             double score = 0;
             for (int i = 0; i < this.NumberOfActions; i++)
             {
                 score += RobbyHelper.ScoreForAllele(moves, grid, rand, ref x, ref y);
-                // Console.WriteLine("position: " + x + "," + y);
             }
-            Console.WriteLine("score: " + score);
-            Console.WriteLine("AverageFitness: " + generation.AverageFitness);
-            Console.WriteLine("----------------------------------------------------");
 
             return score;
         }
 
-        public void GeneratePossibleSolutions(string folderPath) //TODO: loop next gens  
+        public void GeneratePossibleSolutions(string folderPath) 
         {
             string result = "";
             while (true)
@@ -74,10 +64,10 @@ namespace RobbyTheRobot
                 {
                     GenerationDetails gen = GA.CurrentGeneration as GenerationDetails;
                     gen.EvaluateFitnessOfPopulation();
-                    for (int i = 0; i < gen.NumberOfChromosomes; i++)
-                    {
-                        Console.WriteLine("chromosome "+i +" fitness: "+gen[i].Fitness);
-                    }
+                    // for (int i = 0; i < gen.NumberOfChromosomes; i++)
+                    // {
+                    //     Console.WriteLine("chromosome "+i +" fitness: "+gen[i].Fitness);
+                    // }
                     string genes = "";
                     for (int j = 0; j < gen[0].Genes.Length; j++)
                     {
@@ -85,18 +75,14 @@ namespace RobbyTheRobot
                     }
                     result += gen.MaxFitness + "," + gen[0].Genes.Length + "," + genes + "\r\n";
                 }
-                if (count == 5)
+                if (count == this.NumberOfGenerations)
                     break;
                 else
                     GA.GenerateGeneration();
-                    Console.WriteLine(GA.GenerationCount);
+                    // Console.WriteLine(GA.GenerationCount);
             }
             // Write string to file
             System.IO.File.WriteAllText(folderPath, result);
-            //TODO: to remove, code for testing purposes
-            // Open the file to read from. 
-            string readText = System.IO.File.ReadAllText(folderPath);
-            Console.WriteLine(readText);
         }
 
         public ContentsOfGrid[,] GenerateRandomTestGrid()
