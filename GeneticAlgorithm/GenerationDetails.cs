@@ -113,8 +113,8 @@ namespace GeneticAlgorithm
                 int num = 0;
                 if (chromosomes.Length >= 20)
                 {
-                    int quarterOfPop = (int)Math.Ceiling((decimal)chromosomes.Length / 4);
-                    num = random.Next(quarterOfPop);
+                    int thirdOfPop = (int)Math.Ceiling((decimal)chromosomes.Length / 3);
+                    num = random.Next(thirdOfPop*2); // 2/3 of pop
                 }
                 else
                 {

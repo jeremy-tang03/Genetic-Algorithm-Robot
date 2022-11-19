@@ -1,9 +1,10 @@
 using System;
+using System.Diagnostics;
 using GeneticAlgorithm;
 
 namespace RobbyTheRobot
 {
-    class RobbyHelper
+    public class RobbyHelper
     {
         
         /// <summary>
@@ -24,7 +25,7 @@ namespace RobbyTheRobot
             // Console.WriteLine("gene: "+gene);
             //find the move
             PossibleMoves move = (PossibleMoves)moves[gene];
-            Console.WriteLine("move: " + move);
+            // Console.WriteLine("move: " + move);
             bool done;
             do
             {

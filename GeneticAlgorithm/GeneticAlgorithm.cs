@@ -29,7 +29,8 @@ namespace GeneticAlgorithm
 
         public GeneticAlgorithm(int populationSize, int numberOfGenes, int lengthOfGene, double mutationRate, double eliteRate, int numberOfTrials, FitnessEventHandler fitnessCalculation, int? seed = null)
         {
-            if (populationSize <= 0 || numberOfGenes <= 0 || lengthOfGene <= 0 || numberOfTrials < 0)
+            if (populationSize <= 0 || numberOfGenes <= 0 || lengthOfGene <= 0 || numberOfTrials < 1 || mutationRate < 0 ||
+            mutationRate > 1 || eliteRate < 0 || eliteRate > 100 || populationSize <= 0)
             {
                 throw new ArgumentException();
             }
@@ -48,6 +49,10 @@ namespace GeneticAlgorithm
             this._currentGeneration = GenerateGeneration();
         }
 
+        /// <summary>
+        /// Generates a generation for the given parameters. If no generation has been created the initial one will be constructed. 
+        /// If a generation has already been created, it will provide the next generation.
+        /// </summary>
         public IGeneration GenerateGeneration()
         {
             if (this._generationCount == 0)
@@ -60,42 +65,44 @@ namespace GeneticAlgorithm
             }
             else
             {
-                // Console.WriteLine("gen: " + this._generationCount);
                 return GenerateNextGeneration();
             }
         }
 
+        /// <summary>
+        /// Provides the next generation by evaluating the fitness and selecting parents.
+        /// Also takes into consideration the elite rate.
+        /// </summary>
         private IGeneration GenerateNextGeneration()
         {
+            GenerationDetails gen = this._currentGeneration as GenerationDetails;
+            gen.EvaluateFitnessOfPopulation();
             List<Chromosome> newChromosomesList = new List<Chromosome>();
             int topAmount = 0;
-
-            if (this._eliteRate != 0)
+            if (this._eliteRate > 0)
             {
+                // count of chromosomes picked by elite rate
                 double tempTopAmount = (this._currentGeneration.NumberOfChromosomes * this._eliteRate) / 100;
                 topAmount = (int)Math.Floor(tempTopAmount);
                 for (int i = 0; i < topAmount; i++)
                     newChromosomesList.Add(new Chromosome(this._currentGeneration[i]));
             }
 
-            GenerationDetails gen = this._currentGeneration as GenerationDetails;
-            bool reproducing = true;
-            while (reproducing)
+            while (true)
             {
                 if (newChromosomesList.Count == this._currentGeneration.NumberOfChromosomes)
                 {
-                    // Console.WriteLine("BREAK");
-                    reproducing = false;
                     break;
                 }
                 Chromosome baseChromosome = (gen.SelectParent() as Chromosome);
                 Chromosome spouse = (gen.SelectParent() as Chromosome);
                 Chromosome[] chromosomeChildren = baseChromosome.Reproduce(spouse, this._mutationRate) as Chromosome[];
-                if (newChromosomesList.Count == this._currentGeneration.NumberOfChromosomes - 1) // space for 1 new only
+                // space for 1 new only
+                if (newChromosomesList.Count == this._currentGeneration.NumberOfChromosomes - 1)
                 {
-                    // Console.WriteLine("SPACE FOR 1");
                     newChromosomesList.Add(chromosomeChildren[0]);
                 }
+                // space for 2+
                 else
                 {
                     newChromosomesList.Add(chromosomeChildren[0]);

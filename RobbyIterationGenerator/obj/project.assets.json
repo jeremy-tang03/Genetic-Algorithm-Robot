@@ -50,11 +50,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyIterationGenerator\\RobbyIterationGenerator.csproj",
+      "projectUniqueName": "c:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyIterationGenerator\\RobbyIterationGenerator.csproj",
       "projectName": "RobbyIterationGenerator",
-      "projectPath": "C:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyIterationGenerator\\RobbyIterationGenerator.csproj",
+      "projectPath": "c:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyIterationGenerator\\RobbyIterationGenerator.csproj",
       "packagesPath": "C:\\Users\\rapha\\.nuget\\packages\\",
-      "outputPath": "C:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyIterationGenerator\\obj\\",
+      "outputPath": "c:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyIterationGenerator\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\cuscu\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -69,8 +69,8 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "C:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyTheRobot\\RobbyTheRobot.csproj": {
-              "projectPath": "C:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyTheRobot\\RobbyTheRobot.csproj"
+            "c:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyTheRobot\\RobbyTheRobot.csproj": {
+              "projectPath": "c:\\SchoolRepos\\Semester5\\Programming5\\robby-tang-canciani-cuscuna\\RobbyTheRobot\\RobbyTheRobot.csproj"
             }
           }
         }
