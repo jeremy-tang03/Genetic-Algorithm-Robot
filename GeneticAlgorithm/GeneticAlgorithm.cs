@@ -49,6 +49,10 @@ namespace GeneticAlgorithm
             this._currentGeneration = GenerateGeneration();
         }
 
+        /// <summary>
+        /// Generates a generation for the given parameters. If no generation has been created the initial one will be constructed. 
+        /// If a generation has already been created, it will provide the next generation.
+        /// </summary>
         public IGeneration GenerateGeneration()
         {
             if (this._generationCount == 0)
@@ -61,64 +65,50 @@ namespace GeneticAlgorithm
             }
             else
             {
-                // Console.WriteLine("gen: " + this._generationCount);
                 return GenerateNextGeneration();
             }
         }
 
+        /// <summary>
+        /// Provides the next generation by evaluating the fitness and selecting parents.
+        /// Also takes into consideration the elite rate.
+        /// </summary>
         private IGeneration GenerateNextGeneration()
         {
+            GenerationDetails gen = this._currentGeneration as GenerationDetails;
+            gen.EvaluateFitnessOfPopulation();
             List<Chromosome> newChromosomesList = new List<Chromosome>();
             int topAmount = 0;
-
-            if (this._eliteRate != 0)
+            if (this._eliteRate > 0)
             {
+                // count of chromosomes picked by elite rate
                 double tempTopAmount = (this._currentGeneration.NumberOfChromosomes * this._eliteRate) / 100;
                 topAmount = (int)Math.Floor(tempTopAmount);
-                // Console.WriteLine("----------------adding to list----------------");
                 for (int i = 0; i < topAmount; i++)
                     newChromosomesList.Add(new Chromosome(this._currentGeneration[i]));
-                    // foreach(var chrom in newChromosomesList){
-                    //     Array.ForEach(chrom.Genes, Console.Write); Console.WriteLine(); 
-                    // }
             }
 
-            GenerationDetails gen = this._currentGeneration as GenerationDetails;
-            bool reproducing = true;
-            while (reproducing)
+            while (true)
             {
                 if (newChromosomesList.Count == this._currentGeneration.NumberOfChromosomes)
                 {
-                    // Console.WriteLine("-----BREAK-----");
-                    reproducing = false;
                     break;
                 }
                 Chromosome baseChromosome = (gen.SelectParent() as Chromosome);
-                // Console.WriteLine("----------------base chromosome----------------");
-                // Array.ForEach(baseChromosome.Genes, Console.Write); Console.WriteLine(); 
                 Chromosome spouse = (gen.SelectParent() as Chromosome);
-                // Console.WriteLine("----------------spouse chromosome----------------");
-                // Array.ForEach(spouse.Genes, Console.Write); Console.WriteLine();
                 Chromosome[] chromosomeChildren = baseChromosome.Reproduce(spouse, this._mutationRate) as Chromosome[];
-                if (newChromosomesList.Count == this._currentGeneration.NumberOfChromosomes - 1) // space for 1 new only
+                // space for 1 new only
+                if (newChromosomesList.Count == this._currentGeneration.NumberOfChromosomes - 1)
                 {
-                    // Console.WriteLine("SPACE FOR 1");
-                    // Console.WriteLine("----------------child chromosome----------------");
-                    // Array.ForEach(chromosomeChildren[0].Genes, Console.Write); Console.WriteLine();
                     newChromosomesList.Add(chromosomeChildren[0]);
                 }
+                // space for 2+
                 else
                 {
-                    // Console.WriteLine("----------------children chromosomes----------------");
-                //     Array.ForEach(chromosomeChildren[0].Genes, Console.Write); Console.WriteLine();
                     newChromosomesList.Add(chromosomeChildren[0]);
-                    // Array.ForEach(chromosomeChildren[1].Genes, Console.Write); Console.WriteLine();
                     newChromosomesList.Add(chromosomeChildren[1]);
                 }
             }
-            // Console.WriteLine("----------------new chromosomes list----------------");
-            // foreach(var chrom in newChromosomesList)
-            //             Array.ForEach(chrom.Genes, Console.Write); Console.WriteLine();           
             Chromosome[] newChromosomes = newChromosomesList.ToArray();
             IGeneration nextGeneration = new GenerationDetails(newChromosomes, this);
             this._currentGeneration = nextGeneration;
