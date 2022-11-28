@@ -29,16 +29,8 @@ namespace GeneticAlgorithm
         }
         
 
-        public IChromosome[] Chromomsomes{
+        public IChromosome[] Chromosomes{
             get{
-                return this.chromosomes;
-            }
-        }
-
-        public IChromosome[] Chromomsomes
-        {
-            get
-            {
                 return this.chromosomes;
             }
         }
